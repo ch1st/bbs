@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>后台管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../layui/css/layui.css" />
+    <link rel="stylesheet" href="../css/login.css">
+    <script src="../layui/layui.js"></script>
+</head>
+
+<body>
+    <center>
+
+        <div class="login">
+            <h2>后台管理系统</h2>
+
+            <form action="" class="layui-form">
+                <div class="layui-form-item">
+                    <input type="text" name="username" class="layui-input" placeholder="请输入用户名">
+
+                </div>
+                <div class="layui-form-item">
+                    <input type="password" name="password" class="layui-input" placeholder="请输入密码">
+                </div>
+                <div class="layui-form-item">
+                    <input type="text" name="code" class="layui-input code" placeholder="请输入验证码">
+                    <img src='x'>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="login">登 录</button>
+                </div>
+            </form>
+        </div>
+    </center>
+</body>
+
+</html>

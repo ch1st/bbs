@@ -1,0 +1,29 @@
+body {
+    height: 100%;
+    width: 100%;
+    top: 25%;
+}
+
+.loginForm {
+    position: relative;
+    width: 400px;
+    height: 300px;
+    top: 60px;
+}
+
+.loginForm div {
+    position: relative;
+    left: -5%;
+}
+
+.regForm {
+    position: relative;
+    margin-right: 200px;
+    width: 400px;
+    top: 50px;
+    left: -15%;
+}
+
+a:hover {
+    color: #009688;
+}

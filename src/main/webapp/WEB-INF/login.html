@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/layui/css/modules/layer/default/layer.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/form.css">
+</head>
+
+<body>
+    <br/>
+    <form action="" class="layui-form loginForm" >
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名" autocomplete="on" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+
+            <div class="layui-input-block">
+                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <input type="text" name="code" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input" style="width:50%;float:left">
+                <img src="#" id="code"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" style="width:74%;position: absolute;left:86px;" lay-submit lay-filter="login"  >登陆</button>
+            <a href="" style="position: relative; top:100px;clear:both;left:90px;bottom:50px;"><i class="layui-icon layui-icon-login-qq" style=""> </i>QQ登陆</a>
+            <a href="#" style="position: relative; top:65px;clear:both;left:20px;bottom:50px;">忘记密码</a>
+            <a id="toReg" href="/register.html" style="position: relative; top:65px;clear:both;left:100px;">还没有账号？点我注册</a>
+
+        </div>
+    </form>
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="layui/layui.js"></script>
+    <script src="layui/lay/modules/layer.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url:'/getImage?'+Date.parse(new Date()),
+                type:'get',
+                success:function(){
+                    $('#code').attr('src',this.url);
+                }
+            });
+        });
+
+    </script>
+    <script>
+        layui.use('form', function(){
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(login)', function(data){
+                $.ajax({
+                   url:'/doLogin'
+                   ,type:'post'
+                   ,contentType:"application/json"
+                   ,data:JSON.stringify(data.field)
+                   ,success:function(result){
+                       if(result.msg=='验证码已失效'){
+                           $.ajax({
+                               url:'/getImage?'+Date.parse(new Date()),
+                               type:'get',
+                               success:function(){
+                                   $('#code').attr('src',this.url);
+                               }
+                           });
+                       }else{
+                           layer.msg(result.msg);
+                       }
+
+                    }
+
+                });
+                return false;
+            });
+        });
+    </script>
+</body>
+<style>
+
+</style>
+
+</html>

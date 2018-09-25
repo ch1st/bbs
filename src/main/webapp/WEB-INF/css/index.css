@@ -1,0 +1,411 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+/*
+	导航栏样式
+*/
+
+.forum-header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10000;
+    width: 100%;
+    height: 65px;
+    border-right: 1px solid #5FB878;
+    box-shadow: inset 0 -1px 3px rgba(0, 0, 0, 0.3);
+    background-color: white;
+}
+
+.layui-nav {
+    position: relative;
+    padding: 0;
+    background: none;
+    height: 30px;
+    bottom: 35px;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.layui-nav li a:hover {
+    color: #009688 !important;
+}
+
+.layui-nav li a.active {
+    color: #009688 !important;
+}
+
+.logo {
+    position: relative;
+    top: 10px;
+}
+
+.forum-nav {
+    margin-left: 37%;
+}
+
+.layui-nav-item a {
+    color: black !important;
+}
+
+.active {
+    color: white !important;
+}
+
+.login {
+    position: relative;
+    padding: 0;
+    left: 50%;
+    background: none;
+    height: 30%;
+    bottom: 35px;
+    color: #5FB878;
+}
+
+.search {
+    position: fixed;
+}
+
+@media screen and (max-width: 768px) {
+    ul {
+        position: absolute;
+        top: 20px;
+    }
+    #login {
+        width: 20px;
+    }
+    #navbar {}
+}
+
+@media only screen and (min-width: 769px)and (max-width: 991px) {
+    .layui-nav {
+        margin-left: 480px;
+        background: none;
+    }
+    #navbar {
+        margin-left: 200px;
+    }
+}
+
+
+/*
+	内容主体部分
+*/
+
+.box {
+    height: 47px;
+    background-color: #fff;
+}
+
+.inner {
+    position: relative;
+    top: 10px;
+    text-align: center;
+    padding-left: 18px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.SendaryTabs {
+    position: relative;
+    font-size: 14px;
+    line-height: 150%;
+    background-color: rgba(242, 242, 242, 1);
+}
+
+a.tab:hover {
+    display: inline-block;
+    font-size: 15px;
+    line-height: 15px;
+    padding: 5px 8px 5px 8px;
+    border-radius: 3px;
+    background-color: #e2e2e2;
+}
+
+a.tab {
+    display: inline-block;
+    padding: 5px 8px 15px 8px;
+    line-height: 15px;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+a.tab_current {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: bold;
+    background: rgba(79, 184, 129, 1.0);
+    color: white;
+    border: 5px rgba(79, 184, 129, 1.0) solid;
+    border-radius: 3px;
+}
+
+a.subTab {
+    display: inline-block;
+    color: #778087;
+    padding-top: 8px;
+    margin-left: 2%;
+    font-size: 15px;
+    line-height: 15px;
+    text-align: center;
+}
+
+a.subTab:hover {
+    color: #009688 !important;
+    border-bottom: 1px solid;
+}
+
+
+/*
+	第一个面板样式设置
+*/
+
+.info img {
+    padding-top: 10px;
+    padding-left: 10px;
+    max-width: 48px;
+    max-height: 48px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.user {
+    position: relative;
+    bottom: 40px;
+    left: 15%;
+    padding-left: 10px;
+}
+
+.user cite {
+    font-weight: bold;
+    font-size: 16px;
+    color: black;
+}
+
+.fly-link cite:hover {
+    color: #009688 !important;
+}
+
+
+/*
+	table设置
+*/
+
+.fly-function {
+    position: relative;
+    left: 18%;
+    bottom: 35px;
+}
+
+.fly-function a {
+    position: relative;
+    top: 15px;
+    padding-right: 30px;
+    margin-left: 5%;
+}
+
+table a:hover {
+    color: #009688 !important;
+}
+
+table .fade {
+    position: relative;
+    left: 6%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+table {
+    position: relative;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.func {
+    position: relative;
+    text-align: center;
+    bottom: 40px;
+}
+
+.bigger {
+    font-size: 16px;
+}
+
+.sep3 {
+    height: 3px;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+
+/*
+	第二个模块样式
+*/
+
+.item {
+    margin: 0;
+    padding: 7px 0 8px;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+li {
+    list-style: none;
+}
+
+.item-img {
+    float: left;
+    width: 100px;
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.item_content {
+    margin-left: 110px;
+}
+
+
+/*
+	搜索框样式
+*/
+
+.search {
+    position: relative;
+    overflow: auto;
+    height: 78px;
+    line-height: 78px;
+    width: 550px;
+    font-size: 20px;
+}
+
+.search input {
+    height: 78px;
+    width: 100%;
+}
+
+
+/*
+    个人主页样式
+*/
+
+h3 span {
+    line-height: 40px;
+    font-size: 24.5px;
+    font-weight: bold;
+    position: relative;
+    bottom: 80px;
+    left: 13%;
+    padding: 10px;
+}
+
+.user-summary {
+    position: relative;
+    padding: 20px;
+}
+
+
+/*clearfix*/
+
+.user-basic {
+    position: relative;
+    bottom: 50px;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.user-other {
+    margin: 0;
+    padding-left: 10px;
+    font-size: 16px;
+}
+
+
+/*tips*/
+
+.tips {
+    position: relative;
+    left: 13%;
+    bottom: 75px;
+    color: rgba(0, 0, 0, 0.65);
+    margin: 10px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.topics {
+    list-style: none;
+    text-decoration: none;
+    box-shadow: 5px;
+}
+
+.topics li {
+    padding-top: 20px;
+    margin: 10px;
+}
+
+.topics li a {
+    position: relative;
+    line-height: 16px;
+    top: 20px;
+    padding: 10px;
+}
+
+.topics li a.active {
+    background: #009688;
+    border: 1px solid #009688;
+}
+
+
+/*
+    个人主题table
+*/
+
+.r-nick {
+    float: left;
+}
+
+.r-time {
+    margin-left: 15px;
+    float: left;
+    font-size: 14px;
+    color: #cccccc;
+    font-weight: bold;
+}
+
+.helptext {
+    position: relative;
+    left: -250px;
+    color: #cccccc;
+    font-weight: bold;
+}
+
+.r-topic {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    float: left;
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 130%;
+    text-shadow: 0 1px 0 #fff;
+    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
+}
+
+.navs li a:hover {
+    color: white !important;
+    background-color: #009688 !important;
+}
+
+.layui-this a {
+    color: white !important;
+}

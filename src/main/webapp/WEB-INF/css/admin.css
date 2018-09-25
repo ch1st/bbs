@@ -1,0 +1,28 @@
+/*导航栏*/
+
+.header {
+    position: relative;
+    background: white !important;
+    box-shadow: 10px 1px 15px rgba(0, 0, 0, .17);
+}
+
+.diy-nav {
+    background: white;
+}
+
+.diy-nav a {
+    color: black !important;
+}
+
+.logo {
+    position: relative;
+    font-size: 22px !important;
+    font-weight: bold;
+    color: white !important;
+    background: rgba(57, 61, 72) !important;
+}
+
+.item a:hover {
+    background: white !important;
+    color: black !important;
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>帖子编辑</title>
+    <!-- 设置横屏、竖屏显示，portrait 横屏，landscape 竖屏-->
+    <meta name="x5-orientation" content="portrait|landscape">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- 禁止自动识别日期 -->
+    <meta name="format-detection" content="date=no">
+    <!-- 禁止自动自动识别 Email -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="email=no">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 禁止浏览器自动将手机号码变为拨号链接 -->
+    <meta name="format-detection" content="address=no">
+    <!-- 禁止浏览器自动将地址转换 -->
+    <meta name="title" content="">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/font_24081_dddajmj0coc4n29.css">
+    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <div class="forum-header">
+        <div class="layui-container">
+            <a class="logo" href="#"><img src="./img/logo.png" alt=""></a>
+
+
+            <ul class="login layui-nav forum-nav " id="login">
+                <a href="#">
+                    <li class="layui-nav-item"><a href="#" class="subLogin"><i class="layui-icon layui-icon-username" style="font-size: 16px;color: black"> </i>登陆</li></a></a>
+                <a href="#">
+                    <li class="layui-nav-item"><a href="#" id="subReg"><i class="layui-icon layui-icon-water" style="font-size: 16px;color: black"></i>注册</li></a></a>
+            </ul>
+            <!-- <div class="fly-column-right layui-hide-xs" style="top:15px;">
+                <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
+					<i class="layui-icon"></i>
+				</span>
+                <a href="/jie/add/" class="layui-btn">发表新帖</a>
+            </div> -->
+
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15" style="margin-top:20px">
+        <div class="layui-container">
+            <div class="layui-row">
+                <div class="layui-col-md8">
+                    <div class="fly-panel detail-box">
+                        <form action="#" method="POST" class="layui-form">
+                            <div class="layui-form-item" style="width:100%;">
+                                <input type="text" placeholder="请输入标题" class="layui-input" name="title" required style="width:100%;">
+                            </div>
+                            <div class="layui-form-item">
+                                <textarea id="editText" style="display:none"></textarea>
+                            </div>
+                            <div class="layui-form-item" style="width: 50%">
+
+                                <select name="type" class="layui-select">
+                                    <option value="">选择分类(必选)</option>
+                                    <option value="0">分类模块</option>
+                                </select>
+                            </div>
+                            <div class="layui-form-item">
+                                <button type="button" lay-submit class="layui-btn " style="width:30%;">提交</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="layui-col-md4" style="position:relative; left:10px;font-size:16px">
+                    <div class="fly-panel info">
+                        <img src="img/ch1st.jpg" alt="作者名字" />
+                        <div class="fly-detail-user user">
+                            <a href="#" class="fly-link">
+                                <cite>ch1st</cite>
+                            </a>
+                            <span>这个人很懒，什么都没写哦</span>
+                        </div>
+                        <span class="fly-function" style="font-size:16px">
+									<a href="#">
+										<i class="layui-icon layui-icon-set" title="设置"></i>
+										设置
+									</a>
+									<a href="#">
+						     			<i class="layui-icon layui-icon-notice" title="消息"></i>
+										消息
+                                     </a>
+                                     <a href="#">
+                                            <i class="layui-icon layui-icon-close" title="退出"></i>
+                                           注销
+                                        </a>
+								 </span>
+                        <br/>
+                        <br/>
+                        <div class="fly-panel-title fly-filter func">
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td width="25%" align="center" height="12%">
+                                            <a href="#">
+                                                <span class="bigger">100</span>
+                                                <div class="spe3"></div>
+                                                <span class="fade">主&nbsp;&nbsp;&nbsp;题</span>
+                                            </a>
+                                        </td>
+                                        <td width="25%" align="center" style="border-left: 1px solid rgba(100, 100, 100, 0.4); border-right: 1px solid rgba(100, 100, 100, 0.4);">
+                                            <a href="#">
+                                                <span class="bigger">20</span>
+                                                <div class="spe3"></div>
+                                                <span class="fade">收&nbsp;&nbsp;&nbsp;藏</span>
+                                            </a>
+                                        </td>
+                                        <td width="50%" align="center">
+                                            <a href="#">
+                                                <span class="bigger">2018-08-08 15:00:00</span>
+                                                <div class="spe3"></div>
+                                                <span class="fade">上次登陆</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- <h3 class="fly-panel-title">
+                            <center>Young-OG社区</center>
+                        </h3>
+                        <h5 class="fly-panel-title">
+                            <center>一个关于分享和探索的地方</center>
+                        </h5>
+                        <div class="layui-row fly-panel-main" style="padding: 15px;">
+                            <center>
+                                <button class="layui-btn layui-btn-primary signin subLogin">现在登陆</button>
+                            </center>
+                        </div> -->
+                        <br/>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <div class="fly-footer">
+        <p>
+            <a href="http://fly.layui.com/">社区</a> 2018 &copy;
+            <a href="http://www.oldc.pro/">oldc.pro</a>
+        </p>
+        <p>
+            <a href="#" target="_blank">关于我们</a>
+            <a href="#" target="_blank">友情链接</a>
+            <a href="#" target="_blank">社区小黑板</a>
+
+    </div>
+    <script src="layui/layui.js"></script>
+    <script src="layui/lay/modules/form.js"></script>
+    <script src="layui/lay/modules/layer.js"></script>
+    <script src="js/index.js"></script>
+    <script>
+        layui.use('layedit', function() {
+            var layedit = layui.layedit;
+            layedit.build('editText');
+        });
+    </script>
+</body>
+
+</html>

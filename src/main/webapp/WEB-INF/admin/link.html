@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header header">
+            <a href="index.html">
+                <div class="layui-logo logo">后台管理
+                </div>
+            </a>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item diy-nav">
+                    <a href="javascript:;">
+                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img"> 贤心
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="basic.html">基本资料</a></dd>
+                        <dd><a href="modifypwd.html">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item diy-nav"><a href="">注销</a></li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree layui-bg-black" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a class="" href="javascript:;"><i class="layui-icon layui-icon-user"> </i>用户</a>
+                        <dl class="layui-nav-child">
+                            <dd><a class="tabs" href="userManage.html" data-id="33">用户管理</a></dd>
+                            <dd><a class="tabs" href="adminManage.html">管理员管理</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item layui-nav-itemed  ">
+                        <a href="javascript:;"><i class="layui-icon layui-icon-set-sm"> </i>设置</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="setting.html">网站设置</a></dd>
+                            <dd class="layui-this"><a href="link.html">友情链接</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="#"><i class="layui-icon layui-icon-about"> </i>内容管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="type.html">分类管理</a></dd>
+                            <dd><a href="list.html">帖子列表</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="layui-breadcrumb">
+                        <a href="index.html">首页</a>
+                        <a href="#">设置</a>
+                        <a href="link.html">友情链接</a>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-fluid">
+                <div class="layui-card">
+                    <div class="layui-card-body">
+                        <table class="layui-hide" id="link" lay-filter="link"></table>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+    </div>
+    <script src="../layui/layui.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        .cardInfo {
+            font-size: 36px;
+            color: #666;
+            line-height: 36px;
+            padding: 5px 0 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            white-space: nowrap;
+        }
+    </style>
+
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script>
+        //JavaScript代码区域
+        layui.use(['element', 'table'], function() {
+            var element = layui.element;
+            var table = layui.table;
+            table.render({
+                elem: "#link ",
+                url: '#',
+                cols: [
+                    [{
+                        type: 'checkbox',
+                        flexd: 'left'
+                    }, {
+                        field: 'id',
+                        width: 180,
+                        title: 'ID'
+                    }, {
+                        field: 'title',
+                        width: 180,
+                        title: "标题"
+                    }, {
+                        field: 'link',
+                        width: 180,
+                        title: "链接 "
+                    }, {
+                        field: 'addMan',
+                        width: 180,
+                        title: "添加人"
+                    }, {
+                        field: 'time',
+                        width: 180,
+                        title: "添加时间"
+                    }, {
+                        field: 'logo',
+                        width: 180,
+                        title: "图片"
+                    }, {
+                        fixed: 'right',
+                        title: '操作',
+                        toolbar: '#barDemo',
+                    }]
+                ],
+                page: true
+            });
+        });
+    </script>
+</body>
+
+</html>

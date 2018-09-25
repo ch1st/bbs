@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header header">
+            <a href="index.html">
+                <div class="layui-logo logo">后台管理
+                </div>
+            </a>
+            <!-- 头部区域（可配合layui已有的水平导航） -->
+
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item diy-nav">
+                    <a href="javascript:;">
+                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img"> 贤心
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="basic.html">基本资料</a></dd>
+                        <dd><a href="modifypwd.html">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item diy-nav"><a href="">注销</a></li>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree layui-bg-black" lay-filter="test">
+                    <li class="layui-nav-item ">
+                        <a class="" href="javascript:;"><i class="layui-icon layui-icon-user"> </i>用户</a>
+                        <dl class="layui-nav-child">
+                            <dd><a class="tabs" href="userManage.html" data-id="33">用户管理</a></dd>
+                            <dd><a class="tabs" href="adminManage.html">管理员管理</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item ">
+                        <a href="javascript:;"><i class="layui-icon layui-icon-set-sm"> </i>设置</a>
+                        <dl class="layui-nav-child">
+                            <dd class="layui-this"><a href="javascript:;">网站设置</a></dd>
+                            <dd><a href="javascript:;">友情链接</a></dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item"><a href="#"><i class="layui-icon layui-icon-about"> </i>内容管理</a>
+                        <dl class="layui-nav-child">
+                            <dd><a href="javascipt:;">分类管理</a></dd>
+                            <dd><a href="javascipt:;">帖子列表</a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="layui-breadcrumb">
+                        <a href="index.html">首页</a>
+                        <a href="#">设置</a>
+                        <a href="setting.html">网站设置</a>
+                        <a href="basic.html">个人资料</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-fluid">
+                <div class="layui-card layui-card-body">
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md12">
+                            <div class="layui-card">
+                                <div class="layui-card-header">
+                                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                                        <legend>设置我的资料</legend>
+                                    </fieldset>
+                                </div>
+                                <div class="layui-card-body">
+                                    <div class="layui-form" lay-fiflter>
+                                        <div class="layui-form-item">
+                                            <label for="" class="layui-form-label">用户名:</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="username" class="layui-input" readonly value="test">
+                                            </div>
+                                            <div class="layui-form-mid layui-word-aux">不可修改</div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label for="" class="layui-form-label">昵称:</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" value="ch1st">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label for="" class="layui-form-label">头像:</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" class="layui-input" required name="avatar">
+                                            </div>
+                                            <div class="layui-input-inline layui-btn-container" style="width: auto;">
+                                                <button type="button" class="layui-btn layui-btn-primary" id="LAY_avatarUpload">
+                                                      <i class="layui-icon"></i>上传图片
+                                                    </button><input class="layui-upload-file" type="file" accept="undefined" name="file">
+                                                <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">查看图片</button>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">邮箱</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="email" value="" lay-verify="email" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" lay-submit="" lay-filter="setmyinfo">确认修改</button>
+                                                <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+    </div>
+    <script src="../layui/layui.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        .cardInfo {
+            font-size: 36px;
+            color: #666;
+            line-height: 36px;
+            padding: 5px 0 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            white-space: nowrap;
+        }
+    </style>
+    <script>
+        //JavaScript代码区域
+        layui.use(['element', 'table'], function() {
+            var element = layui.element;
+            var table = layui.table;
+
+
+        });
+    </script>
+</body>
+
+</html>

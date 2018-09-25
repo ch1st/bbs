@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>社区首页</title>
+    <!-- 设置横屏、竖屏显示，portrait 横屏，landscape 竖屏-->
+    <meta name="x5-orientation" content="portrait|landscape">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- 禁止自动识别日期 -->
+    <meta name="format-detection" content="date=no">
+    <!-- 禁止自动自动识别 Email -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="email=no">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 禁止浏览器自动将手机号码变为拨号链接 -->
+    <meta name="format-detection" content="address=no">
+    <!-- 禁止浏览器自动将地址转换 -->
+    <meta name="title" content="">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/font_24081_dddajmj0coc4n29.css">
+    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <div class="forum-header">
+        <div class="layui-container">
+            <a class="logo" href="#"><img src="./img/logo.png" alt=""></a>
+
+            <div class="fly-column-right layui-hide-xs" style="top:15px;">
+                <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
+					<i class="layui-icon"></i>
+                </span>
+                <a href="/jie/add/" class="layui-btn">发表新帖</a>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15" style="margin-top:20px">
+        <div class="layui-container fly-marginTop fly-user-main">
+            <ul class="layui-nav layui-nav-tree layui-inline navs" lay-filter="user" style="background:white;">
+                <li class="layui-nav-item">
+                    <a href="/userinfo.html"> <i class="layui-icon"></i> 我的主页 </a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/userSetting.html"> <i class="layui-icon"></i> 基本设置 </a>
+                </li>
+                <li class="layui-nav-item ">
+                    <a href="/userTopic.html"> <i class="iconfont icon-tiezi"></i> 我的帖子 </a>
+                </li>
+                <li class="layui-nav-item layui-this">
+                    <a href="/message.html"> <i class="layui-icon"></i> 我的消息 </a>
+                </li>
+                <span class="layui-nav-bar" style="top: 212.5px; height: 0px; opacity: 0;"></span>
+            </ul>
+            <div class="site-tree-mobile layui-hide">
+                <i class="layui-icon"></i>
+            </div>
+            <div class="site-mobile-shade"></div>
+            <div class="fly-panel fly-panel-user" pad20="">
+                <table id="topics" lay-filter="test"></table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="fly-footer">
+        <p>
+            <a href="http://fly.layui.com/">社区</a> 2018 &copy;
+            <a href="http://www.oldc.pro/">oldc.pro</a>
+        </p>
+        <p>
+            <a href="#" target="_blank">关于我们</a>
+            <a href="#" target="_blank">友情链接</a>
+            <a href="#" target="_blank">社区小黑板</a>
+
+    </div>
+    <script src="layui/layui.js"></script>
+
+    <script src="layui/lay/modules/form.js"></script>
+    <script src="layui/lay/modules/layer.js"></script>
+    <script src="js/index.js"></script>
+    <script type="text/html" id="headTools">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+            <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+            <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        </div>
+    </script>
+
+    <script type="text/html" id="tools">
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="view">查看</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>
+    <script>
+        layui.use(['element', 'table'], function() {
+            var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+            var table = layui.table;
+            //监听导航点击
+            element.on('nav(demo)', function(elem) {
+                //console.log(elem)
+                layer.msg(elem.text());
+            });
+            table.render({
+                elem: '#topics',
+                height: 400,
+                url: '',
+                page: true,
+                toolbar: '#headTools',
+                cols: [
+                    [{
+                            type: 'checkbox',
+                            fixed: 'left'
+                        },
+
+                        {
+                            field: 'id',
+                            title: 'ID',
+                            width: 160,
+                            sort: true,
+                            fixed: 'left'
+                        }, {
+                            field: 'title',
+                            title: '主题标题',
+                            width: 250
+                        }, {
+                            field: 'date',
+                            title: '回复时间',
+                            width: 250
+                        }, {
+                            field: 'right',
+                            title: '',
+                            toolbar: '#tools',
+                            width: 200
+                        }
+                    ]
+                ]
+            });
+            //头部
+            table.on('toolbar(test)', function(obj) {
+                var checkStatus = table.checkStatus(obj.config.id);
+                switch (obj.event) {
+                    case 'getCheckData':
+                        var data = checkStatus.data;
+                        layer.alert(JSON.stringify(data));
+                        break;
+                    case 'getCheckLength':
+                        var data = checkStatus.data;
+                        layer.msg('选中了：' + data.length + ' 个');
+                        break;
+                    case 'isAll':
+                        layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                        break;
+                };
+            });
+            //监听行工具事件
+            table.on('tool(test)', function(obj) {
+                var data = obj.data;
+                //console.log(obj)
+                if (obj.event === 'del') {
+                    layer.confirm('真的删除行么', function(index) {
+                        obj.del();
+                        layer.close(index);
+                    });
+                } else if (obj.event === 'edit') {
+                    layer.prompt({
+                        formType: 2,
+                        value: data.email
+                    }, function(value, index) {
+                        obj.update({
+                            email: value
+                        });
+                        layer.close(index);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

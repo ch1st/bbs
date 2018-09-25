@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.bbs.dao.MemberDao">
+
+ 	<resultMap type="com.bbs.pojo.Member" id="MemberMap">
+		<result column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="regIP" property="regIP"/>
+		<result column="loginIP" property="loginIP"/>
+		<result column="email" property="email"/>
+		<result column="status" property="status"/>
+		<result column="regTime" property="regTime"/>
+		<result column="loginTime" property="loginTime"/>
+	</resultMap>
+	<insert id="insert">
+            INSERT INTO bbs_member
+            <trim	prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id!=null and id!=''">id,</if>
+                <if test="name!=null and name!=''">name,</if>
+                <if test="username!=null">username,</if>
+                <if test="password!=null and password!=''">password,</if>
+                <if test="regIP!=null and regIP!=''">regIP,</if>
+                loginIP,
+                <if test="email!=null">email,</if>
+                <if test="status!=null and status!=''">type_id,</if>
+                <if test="regTime!=null">regTime,</if>
+                loginTime,
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id!=null and id!=''">#{id},</if>
+                <if test="name!=null and name!=''">#{name},</if>
+                <if test="username!=null">#{username},</if>
+                <if test="password!=null and password!=''">#{password},</if>
+                <if test="regIP!=null and regIP!=''">#{regIP},</if>
+                #{loginIP},
+                <if test="email!=null">#{email},</if>
+                <if test="status!=null and status!=''">#{status},</if>
+                <if test="regTime!=null">#{regTime},</if>
+                #{loginTime},
+            </trim>
+	</insert>
+
+</mapper>
