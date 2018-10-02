@@ -1,9 +1,12 @@
 package com.bbs.controller;
 
+import com.bbs.exception.CustomerException;
 import com.bbs.pojo.Member;
 import com.bbs.service.MemberService;
 import com.bbs.utils.Captcha;
 import com.bbs.utils.ReturnJson;
+import com.bbs.utils.getUUID;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +30,7 @@ import java.util.Map;
 public class UserIndexController {
     @Autowired
     private MemberService memberService;
+
     @RequestMapping("/index")
     public String index() {
         return "index";
@@ -58,7 +63,13 @@ public class UserIndexController {
             return new ReturnJson(1, "验证码错误", 0, "");
         } else {
             // 在这里可以处理自己需要的事务，比如验证登陆等
-            return new ReturnJson(0, "验证码正确", 0, "");
+            Member status = memberService.login(member);
+            if (status != null) {
+                request.getSession().setAttribute("member", status.getId());
+                return new ReturnJson(0, "登陆成功 ", 0, "");
+            } else {
+                return new ReturnJson(0, "用户名或密码错误", 0, "");
+            }
 
         }
 
@@ -77,11 +88,13 @@ public class UserIndexController {
 
     @RequestMapping(value = "/doReg", method = RequestMethod.POST)
     @ResponseBody
-    public ReturnJson doReg(HttpServletRequest request, @RequestBody Member member) {
+    public ReturnJson doReg(HttpServletRequest request, @RequestBody Member member) throws CustomerException {
         member.setRegIP(request.getRemoteAddr().toString());
-        int i=memberService.insertMember(member);
-        System.out.println("i:"+i);
-        return null;
+        int i = memberService.insertMember(member);
+        if (i > 0) {
+            return new ReturnJson(0, "注册成功", 0, "");
+        }
+        return new ReturnJson(1, "注册失败", 0, "");
     }
 
     /*
@@ -113,5 +126,22 @@ public class UserIndexController {
         return null;
     }
 
+    /**
+     * 注销用户
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:index";
+    }
+
+    @RequestMapping("/uploadImg")
+    public ReturnJson upload(HttpServletRequest request, MultipartFile pictureFile){
+        String nam= getUUID.getUUID().toString();
+        String ext = FilenameUtils.getExtension(pictureFile.getOriginalFilename());
+    }
 
 }

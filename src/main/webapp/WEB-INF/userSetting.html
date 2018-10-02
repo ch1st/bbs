@@ -20,11 +20,11 @@
     <meta name="format-detection" content="address=no">
     <!-- 禁止浏览器自动将地址转换 -->
     <meta name="title" content="">
-    <link rel="stylesheet" href="layui/css/layui.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/font_24081_dddajmj0coc4n29.css">
-    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/font_24081_dddajmj0coc4n29.css">
+    <link rel="stylesheet" href="/layui/css/modules/layer/default/layer.css">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 
 </head>
@@ -32,13 +32,13 @@
 <body>
     <div class="forum-header">
         <div class="layui-container">
-            <a class="logo" href="#"><img src="./img/logo.png" alt=""></a>
+            <a class="logo" href="/index"><img src="/img/logo.png" alt=""></a>
 
             <div class="fly-column-right layui-hide-xs" style="top:15px;">
                 <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
 					<i class="layui-icon"></i>
                 </span>
-                <a href="/jie/add/" class="layui-btn">发表新帖</a>
+                <a href="/add" class="layui-btn">发表新帖</a>
 
             </div>
 
@@ -52,7 +52,7 @@
                     <a href="/userinfo.html"> <i class="layui-icon"></i> 我的主页 </a>
                 </li>
                 <li class="layui-nav-item layui-this">
-                    <a href="/userSetting.html"> <i class="layui-icon"></i> 基本设置 </a>
+                    <a href="/user/setting"> <i class="layui-icon"></i> 基本设置 </a>
                 </li>
                 <li class="layui-nav-item ">
                     <a href="/userTopic.html"> <i class="iconfont icon-tiezi"></i> 我的帖子 </a>
@@ -72,61 +72,42 @@
                         <li class="layui-this" lay-id="info">我的资料</li>
                         <li lay-id="avatar">头像</li>
                         <li lay-id="pass">密码</li>
-                        <li lay-id="bind">帐号绑定</li>
                     </ul>
                     <div class="layui-tab-content" style="padding: 20px 0;">
                         <div class="layui-form layui-form-pane layui-tab-item layui-show">
-                            <form method="post">
+                            <#if info??>
+                            <form>
                                 <div class="layui-form-item">
                                     <label for="L_email" class="layui-form-label">邮箱</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="L_email" name="email" required="" lay-verify="email" autocomplete="off" value="1434559075@qq.com" class="layui-input" />
+                                        <input type="text" id="L_email" name="email" required="" lay-verify="email" autocomplete="off" value="${info.email}" class="layui-input" />
                                     </div>
-                                    <div class="layui-form-mid layui-word-aux">
-                                        您的邮箱尚未激活，请：
-                                        <a href="/user/activate/" style="color: #4f99cf;">激活邮箱</a>
-                                    </div>
+
                                 </div>
                                 <div class="layui-form-item">
                                     <label for="L_username" class="layui-form-label">昵称</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="L_username" name="username" required="" lay-verify="required" autocomplete="off" value="testgaligeigei" class="layui-input" />
+                                        <input type="text" id="L_username" name="username" required="" lay-verify="required" autocomplete="off" value="${info.name}" class="layui-input" />
                                     </div>
-                                    <div class="layui-inline">
-                                        <div class="layui-input-inline">
-                                            <input type="radio" name="sex" value="0" checked="" title="男" />
-                                            <div class="layui-unselect layui-form-radio layui-form-radioed">
-                                                <i class="layui-anim layui-icon"></i>
-                                                <div>
-                                                    男
-                                                </div>
-                                            </div>
-                                            <input type="radio" name="sex" value="1" title="女" />
-                                            <div class="layui-unselect layui-form-radio">
-                                                <i class="layui-anim layui-icon"></i>
-                                                <div>
-                                                    女
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                                 <div class="layui-form-item">
                                     <label for="L_city" class="layui-form-label">城市</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="L_city" name="city" autocomplete="off" value="北京市" class="layui-input" />
+                                        <input type="text" id="L_city" name="city" autocomplete="off" placeholder="请输入你所在的城市" class="layui-input" value="${info.city!}"/>
                                     </div>
                                 </div>
                                 <div class="layui-form-item layui-form-text">
                                     <label for="L_sign" class="layui-form-label">签名</label>
                                     <div class="layui-input-block">
-                                        <textarea placeholder="随便写些什么刷下存在感" id="L_sign" name="sign" autocomplete="off" class="layui-textarea" style="height: 80px;"></textarea>
+                                        <textarea placeholder="随便写些什么刷下存在感" id="L_sign" name="signature" autocomplete="off" class="layui-textarea" style="height: 80px;">${info.signature}</textarea>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit="">确认修改</button>
+                                    <button class="layui-btn" key="set-mine" lay-filter="info" lay-submit="" type="button">确认修改</button>
                                 </div>
                             </form>
+                            </#if>
                         </div>
                         <div class="layui-form layui-form-pane layui-tab-item">
                             <div class="layui-form-item">
@@ -134,7 +115,9 @@
                                     <p>建议尺寸168*168，支持jpg、png、gif，最大不能超过50KB</p>
                                     <button type="button" class="layui-btn upload-img"> <i class="layui-icon"></i>上传头像 </button>
                                     <input class="layui-upload-file" type="file" accept="undefined" name="file" />
-                                    <img src="//thirdqq.qlogo.cn/qqapp/101235792/64D760F510EA68D859BDDA2EBDFF615D/100" />
+                                    <#if info??>
+                                        <img src="${info.avatar!'/img/ch1st.jpg'}" />
+                                    </#if>
                                     <span class="loading"></span>
                                 </div>
                             </div>
@@ -159,12 +142,7 @@
                                 <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit="">确认修改</button>
                             </div>
                         </div>
-                        <div class="layui-form layui-form-pane layui-tab-item">
-                            <ul class="app-bind">
-                                <li class="fly-msg  app-havebind"> <i class="iconfont icon-qq"></i> <span>已成功绑定，您可以使用QQ帐号直接登录Fly社区，当然，您也可以</span> <a href="javascript:;" class="acc-unbind" type="qq_id">解除绑定</a> </li>
-                                <li class="fly-msg "> <i class="iconfont icon-weibo"></i> <a href="/app/weibo/" class="acc-weibo" type="weibo_id" onclick="layer.msg('正在绑定微博', {icon:16, shade: 0.1, time:0})">立即绑定</a> <span>，即可使用微博帐号登录Fly社区</span> </li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -184,22 +162,34 @@
         <p class="fly-union">
             <a href="https://www.upyun.com/?from=layui" target="_blank" rel="nofollow" upyun=""><img src="./Fly - layui前端框架官方社区_files/upyun.png" /></a> <span>提供 CDN 赞助</span> </p>
     </div>
-    <script src="layui/layui.js"></script>
+    <script src="/layui/layui.js"></script>
 
-    <script src="layui/lay/modules/form.js"></script>
-    <script src="layui/lay/modules/layer.js"></script>
-    <script src="js/index.js"></script>
+    <script src="/layui/lay/modules/form.js"></script>
+    <script src="/layui/lay/modules/layer.js"></script>
+    <script src="/js/index.js"></script>
     <script>
-        layui.use('element', function() {
+        layui.use(['element','form'], function() {
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-
+            var form =layui.form;
             //监听导航点击
             element.on('nav(demo)', function(elem) {
                 //console.log(elem)
                 layer.msg(elem.text());
             });
+            form.on('submit(info)',function(data){
+               $.ajax({
+                    url:'/user/updateInfo'
+                    ,type:'PATCH'
+                    ,contentType:'application/json'
+                    ,data:JSON.stringify(data.field)
+                    ,success:function(result){
+                        layer.msg(result.msg);
+                   }
+               });
+            });
         });
     </script>
+
 </body>
 
 </html>

@@ -1,6 +1,8 @@
 package com.bbs.pojo;
 
-public class Member {
+import java.io.Serializable;
+
+public class Member implements Serializable {
     private String id;
     private String name;
     private String username;
@@ -12,9 +14,36 @@ public class Member {
     private Integer status;
     private String regTime;
     private String loginTime;
+    private String avatar;
+    private String city;
+    private String signature;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 
     public String getRegTime() {
         return regTime;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public void setRegTime(String regTime) {
@@ -118,6 +147,9 @@ public class Member {
                 ", status=" + status +
                 ", regTime='" + regTime + '\'' +
                 ", loginTime='" + loginTime + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", city='" + city + '\'' +
+                ", signature='" + signature + '\'' +
                 '}';
     }
 }

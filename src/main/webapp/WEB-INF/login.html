@@ -70,7 +70,8 @@
                    ,contentType:"application/json"
                    ,data:JSON.stringify(data.field)
                    ,success:function(result){
-                       if(result.msg=='验证码已失效'){
+                       layer.msg(result.msg);
+                       if(result.msg=='验证码已失效'||result.msg=="验证码错误"||result.msg=="用户名或密码错误"){
                            $.ajax({
                                url:'/getImage?'+Date.parse(new Date()),
                                type:'get',
@@ -79,7 +80,12 @@
                                }
                            });
                        }else{
-                           layer.msg(result.msg);
+                           layer.msg(result.msg,{
+                               time:500
+                           });
+                           var index=parent.layer.getFrameIndex(window.name);
+                           window.parent.location.reload();
+                           parent.layer.close();
                        }
 
                     }

@@ -15,7 +15,7 @@
 <body>
 
 
-    <form action="#" class="layui-form regForm">
+    <form class="layui-form regForm">
         <br>
         <div class="layui-form-item">
             <div class="layui-input-block">
@@ -45,7 +45,7 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <button class="layui-btn layui-btn-primary" lay-submit lay-filter="reg" style="width:50%;">注册</button>
+                <button class="layui-btn layui-btn-primary" lay-submit lay-filter="reg" style="width:50%;" type="button">注册</button>
                 <a href="/login.html" style="position:relative;float:right;top:15px;" id="toLogin">已有账号，立即登陆</a>
             </div>
         </div>
@@ -62,6 +62,7 @@
                 success:function(){
                     $('#code').attr('src',this.url);
                 }
+
             });
         });
     </script>
@@ -95,14 +96,32 @@
                 }
             });
             form.on('submit(reg)',function(data){
-               $.ajax({
+                $.ajax({
                     url:'/doReg',
-                    type:'post',
+                    type:'POST',
                     data:JSON.stringify(data.field),
-                   contentType:"application/json",
-                   success:function(result){
-                    layer.msg(result.msg);
+                    contentType:"application/json",
+                    success:function(result){
+                        if(result.code==0){
+                            $.ajax({
+                                url:'/getImage?'+Date.parse(new Date()),
+                                type:'get',
+                                success:function(){
+                                    $('#code').attr('src',this.url);
+                                }
+
+                            });
+
+                        }
+                        layer.msg(result.msg,function(){
+                            if(result.msg=="注册成功"){
+                                var index=parent.layer.getFrameIndex(window.name);
+                                window.parent.location.reload();
+                                parent.layer.close();
+                            }
+                        });
                    }
+
                });
             });
         });

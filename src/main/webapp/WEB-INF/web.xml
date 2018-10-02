@@ -4,6 +4,10 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <welcome-file-list>
+        <welcome-file>index</welcome-file>
+    </welcome-file-list>
+    
     <!-- 编码过滤器 -->
     <filter>
         <filter-name>encodingFilter</filter-name>
@@ -34,6 +38,10 @@
         <servlet-name>SpringMVC</servlet-name>
         <!-- 匹配所有请求 -->
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SpringMVC</servlet-name>
+        <url-pattern>/index</url-pattern>
     </servlet-mapping>
     <!-- 启用Web监控统计功能 -->
     <filter>
@@ -97,6 +105,13 @@
         <url-pattern>/druid/*</url-pattern>
     </servlet-mapping>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/404.html</location>
+    </error-page>
 
-
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/500.html</location>
+    </error-page>
 </web-app>

@@ -29,7 +29,7 @@
         <property name="exposeRequestAttributes" value="true"/>
         <property name="exposeSpringMacroHelpers" value="true"/>
         <!-- 在页面中使用${rc.contextPath}就可获得contextPath -->
-        <property name="requestContextAttribute" value="rc"/>
+        <property name="requestContextAttribute" value="rc"></property>
         <property name="order" value="0"/>
     </bean>
     <!-- 配置freeMarker的模板路径 -->
@@ -39,10 +39,21 @@
     </bean>
 
 
+    <!--开启拦截器-->
+    <!--<mvc:interceptors>-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<bean class="com.bbs.interceptor.LoginInterceptor"></bean>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
 
 
-
-
+    <!--上传图片设置-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="5242880"/>
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="resolveLazily" value="true"/>
+    </bean>
 
     <mvc:resources mapping="/css/**" location="/WEB-INF/css/"/>
     <mvc:resources mapping="/img/**" location="/WEB-INF/img/"/>

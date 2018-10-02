@@ -35,19 +35,21 @@
         <div class="layui-container">
             <a class="logo" href="#"><img src="./img/logo.png" alt=""></a>
 
-
+            <#if Session['member']?exists>
+            <div class="fly-column-right layui-hide-xs" style="top:15px;">
+                <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
+					<i class="layui-icon"></i>
+				</span>
+                <a href="/add" class="layui-btn">发表新帖</a>
+            </div>
+            <#else>
             <ul class="login layui-nav forum-nav " id="login">
                 <a href="#">
                     <li class="layui-nav-item"><a href="#" class="subLogin"><i class="layui-icon layui-icon-username" style="font-size: 16px;color: black"> </i>登陆</li></a></a>
                 <a href="#">
                     <li class="layui-nav-item"><a href="#" id="subReg"><i class="layui-icon layui-icon-water" style="font-size: 16px;color: black"></i>注册</li></a></a>
             </ul>
-            <!-- <div class="fly-column-right layui-hide-xs" style="top:15px;">
-                <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
-					<i class="layui-icon"></i>
-				</span>
-                <a href="/jie/add/" class="layui-btn">发表新帖</a>
-            </div> -->
+        </#if>
 
         </div>
     </div>
@@ -401,15 +403,16 @@
 
                 <div class="layui-col-md4" style="position:relative; left:10px;font-size:16px">
                     <div class="fly-panel info">
-                        <!-- <img src="img/ch1st.jpg" alt="作者名字" />
-                        <div class="fly-detail-Member Member">
+                        <#if Session['member']?exists>
+                        <img src="img/ch1st.jpg" alt="作者名字" />
+                        <div class="fly-detail-user user">
                             <a href="#" class="fly-link">
                                 <cite>ch1st</cite>
                             </a>
                             <span>这个人很懒，什么都没写哦</span>
                         </div>
-                        <span class="fly-function" style="font-size:16px">
-									<a href="#">
+                        <span class="fly-function" style="font-size:15px">
+									<a href="/user/setting">
 										<i class="layui-icon layui-icon-set" title="设置"></i>
 										设置
 									</a>
@@ -417,38 +420,21 @@
 						     			<i class="layui-icon layui-icon-notice" title="消息"></i>
 										消息
 						     		</a>
-								 </span>
-                        <br/>
-                        <br/>
-                        <div class="fly-panel-title fly-filter func">
-                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                <tbody>
-                                    <tr>
-                                        <td width="25%" align="center" height="12%">
-                                            <a href="#">
-                                                <span class="bigger">100</span>
-                                                <div class="spe3"></div>
-                                                <span class="fade">主&nbsp;&nbsp;&nbsp;题</span>
-                                            </a>
-                                        </td>
-                                        <td width="25%" align="center" style="border-left: 1px solid rgba(100, 100, 100, 0.4); border-right: 1px solid rgba(100, 100, 100, 0.4);">
-                                            <a href="#">
-                                                <span class="bigger">20</span>
-                                                <div class="spe3"></div>
-                                                <span class="fade">收&nbsp;&nbsp;&nbsp;藏</span>
-                                            </a>
-                                        </td>
-                                        <td width="50%" align="center">
-                                            <a href="#">
-                                                <span class="bigger">2018-08-08 15:00:00</span>
-                                                <div class="spe3"></div>
-                                                <span class="fade">上次登陆</span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> -->
+                                    <a href="/logout">
+                                        <i class="layui-icon layui-icon-note" title="注销"></i>
+                                        注销
+                                    </a>
+                        </span>
+                        <table class="layui-table" lay-data="{url:'/demo/table/user/', page:true, id:'test'}" lay-filter="test">
+                            <thead>
+                            <tr>
+                                <th lay-data="{field:'topic', width:80}">主题</th>
+                                <th lay-data="{field:'reply', width:80}">回复</th>
+                                <th lay-data="{field:'time', width:80}">上次登陆</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <#else>
                         <h3 class="fly-panel-title">
                             <center>Young-OG社区</center>
                         </h3>
@@ -461,7 +447,7 @@
                             </center>
                         </div>
                         <br/>
-
+                    </#if>
                     </div>
                     <div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">
                         <h3 class="fly-panel-title">回贴周榜</h3>

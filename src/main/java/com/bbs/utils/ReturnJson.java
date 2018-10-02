@@ -44,4 +44,14 @@ public class ReturnJson {
         this.count = count;
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "ReturnJson{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", count=" + count +
+                ", data=" + data +
+                '}';
+    }
 }

@@ -14,7 +14,15 @@
 		<result column="status" property="status"/>
 		<result column="regTime" property="regTime"/>
 		<result column="loginTime" property="loginTime"/>
+        <result column="avatar" property="avatar"/>
+        <result column="city" property="city"/>
+        <result column="signature" property="signature"/>
 	</resultMap>
+
+    <select id="getMemberById" resultMap="MemberMap">
+        select * from bbs_member where id=#{id}
+    </select>
+
 	<insert id="insert">
             INSERT INTO bbs_member
             <trim	prefix="(" suffix=")" suffixOverrides=",">
@@ -25,9 +33,9 @@
                 <if test="regIP!=null and regIP!=''">regIP,</if>
                 loginIP,
                 <if test="email!=null">email,</if>
-                <if test="status!=null and status!=''">type_id,</if>
+                status,
                 <if test="regTime!=null">regTime,</if>
-                loginTime,
+                loginTime,avatar,city,signature,
             </trim>
             <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id!=null and id!=''">#{id},</if>
@@ -37,10 +45,25 @@
                 <if test="regIP!=null and regIP!=''">#{regIP},</if>
                 #{loginIP},
                 <if test="email!=null">#{email},</if>
-                <if test="status!=null and status!=''">#{status},</if>
+                #{status},
                 <if test="regTime!=null">#{regTime},</if>
-                #{loginTime},
+                #{loginTime},${avatar},${city},${signature},
             </trim>
 	</insert>
 
+    <select id="login" resultMap="MemberMap">
+        SELECT * FROM bbs_member where 1=1
+        <if test="username!=null and username!=''">and username=#{username}</if>
+        <if test="password!=null and password!=''">and password=#{password}</if>
+        and status=0
+    </select>
+
+    <update id="update">
+        UPDATE bbs_member
+          <set>
+              <if test="email!=null and email!=''">email=#{email},</if>
+              city=#{city},signature=#{signature},
+          </set>
+        WHERE id=#{id}
+    </update>
 </mapper>
