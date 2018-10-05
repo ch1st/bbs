@@ -9,9 +9,16 @@ import javax.servlet.http.HttpSession;
 
 public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        return false;
-
+        HttpSession session = request.getSession();
+        String member = (String) session.getAttribute("member");
+        if (member != null) {
+            return true;
+        } else {
+            request.getRequestDispatcher("/WEB-INF/403.html").forward(request,response);
+            return false;
+        }
     }
+
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
     }

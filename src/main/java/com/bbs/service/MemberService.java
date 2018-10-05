@@ -56,8 +56,14 @@ public class MemberService {
      * @param member
      * @return
      */
-    public Integer update(Member member){
-        return memberDao.update(member);
+    public Integer update(Member member) throws CustomerException {
+        Integer i=null;
+        try {
+             i = memberDao.update(member);
+        }catch (DuplicateKeyException e){
+            throw new CustomerException("昵称重复");
+        }
+        return i;
     }
 
     /**
@@ -67,5 +73,24 @@ public class MemberService {
      */
     public Member getMemberById(String id){
         return memberDao.getMemberById(id);
+    }
+
+    /**
+     * 更新头像地址
+     * @param member
+     */
+    public void updateAvatar(Member member) {
+         memberDao.updateAvatar(member);
+    }
+
+    /**
+     * 用户自行更改密码
+     * @param id
+     * @param oldPass
+     * @param newPass
+     * @return
+     */
+    public Integer updatePwd(String id,String oldPass,String newPass){
+        return memberDao.updatePwd(id,oldPass,newPass);
     }
 }

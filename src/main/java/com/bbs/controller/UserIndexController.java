@@ -20,10 +20,13 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.logging.SimpleFormatter;
 
 
 @Controller
@@ -139,9 +142,35 @@ public class UserIndexController {
     }
 
     @RequestMapping("/uploadImg")
-    public ReturnJson upload(HttpServletRequest request, MultipartFile pictureFile){
-        String nam= getUUID.getUUID().toString();
-        String ext = FilenameUtils.getExtension(pictureFile.getOriginalFilename());
+    @ResponseBody
+    public ReturnJson upload(HttpServletRequest request, MultipartFile file) throws IOException {
+        String szFileName=file.getOriginalFilename();
+        String szDateFolder="";
+        String szNewFileName="";
+        String szFilePath="";
+        try{
+            if(file!=null&&szFileName!=null&&szFileName.length()>0) {
+                Date date = new Date();
+                szDateFolder=new SimpleDateFormat("yyyy/MM/dd").format(date);
+                szFilePath=request.getServletContext().getRealPath("/WEB-INF/upload/")+szDateFolder;
+                File f = new File(szFilePath);
+                if(!f.exists()) {
+                    f.mkdirs();
+                }
+                szNewFileName=getUUID.getUUID()+szFileName.substring(szFileName.lastIndexOf("."));
+                File newFile = new File(szFilePath+"//"+szNewFileName);
+                file.transferTo(newFile);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Member m = new Member();
+        m.setId((String)request.getSession().getAttribute("member"));
+        m.setAvatar("/upload/"+szDateFolder+"/"+szNewFileName);
+        memberService.updateAvatar(m);
+        return new ReturnJson(0,"上传成功",0,"/upload/"+szDateFolder+"/"+szNewFileName);
     }
+
+
 
 }

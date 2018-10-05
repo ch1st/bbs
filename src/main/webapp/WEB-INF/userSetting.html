@@ -87,7 +87,7 @@
                                 <div class="layui-form-item">
                                     <label for="L_username" class="layui-form-label">昵称</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" id="L_username" name="username" required="" lay-verify="required" autocomplete="off" value="${info.name}" class="layui-input" />
+                                        <input type="text" id="L_username" name="name" required="" lay-verify="required" autocomplete="off" value="${info.name}" class="layui-input" />
                                     </div>
 
                                 </div>
@@ -113,10 +113,10 @@
                             <div class="layui-form-item">
                                 <div class="avatar-add">
                                     <p>建议尺寸168*168，支持jpg、png、gif，最大不能超过50KB</p>
-                                    <button type="button" class="layui-btn upload-img"> <i class="layui-icon"></i>上传头像 </button>
-                                    <input class="layui-upload-file" type="file" accept="undefined" name="file" />
+                                    <button type="button" class="layui-btn upload-img" id="upload"> <i class="layui-icon"></i>上传头像 </button>
+                                    <input class="layui-upload-file" type="file" name="file" />
                                     <#if info??>
-                                        <img src="${info.avatar!'/img/ch1st.jpg'}" />
+                                        <img src="${info.avatar!'/img/ch1st.jpg'}" id="avatar"/>
                                     </#if>
                                     <span class="loading"></span>
                                 </div>
@@ -124,22 +124,29 @@
                         </div>
                         <div class="layui-form layui-form-pane layui-tab-item">
                             <div class="layui-form-item">
+                                <label  class="layui-form-label">旧密码</label>
+                                <div class="layui-input-inline">
+                                    <input type="password" name="oldPass" required placeholder="请输入当前密码" class="layui-input" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
                                 <label for="L_pass" class="layui-form-label">新密码</label>
                                 <div class="layui-input-inline">
-                                    <input type="password" id="L_pass" name="pass" required="" lay-verify="required" autocomplete="off" class="layui-input" />
+                                    <input type="password" id="L_pass" required="" lay-verify="required|pwd" autocomplete="off" class="layui-input" />
                                 </div>
                                 <div class="layui-form-mid layui-word-aux">
                                     6到16个字符
                                 </div>
                             </div>
+
                             <div class="layui-form-item">
                                 <label for="L_repass" class="layui-form-label">确认密码</label>
                                 <div class="layui-input-inline">
-                                    <input type="password" id="L_repass" name="repass" required="" lay-verify="required" autocomplete="off" class="layui-input" />
+                                    <input type="password" id="L_repass" name="newPass" required="" lay-verify="required|rePwd" autocomplete="off" class="layui-input" />
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <button class="layui-btn" key="set-mine" lay-filter="*" lay-submit="">确认修改</button>
+                                <button class="layui-btn" key="set-mine" lay-filter="updatePass" lay-submit="">确认修改</button>
                             </div>
                         </div>
 
@@ -164,13 +171,14 @@
     </div>
     <script src="/layui/layui.js"></script>
 
-    <script src="/layui/lay/modules/form.js"></script>
     <script src="/layui/lay/modules/layer.js"></script>
     <script src="/js/index.js"></script>
     <script>
-        layui.use(['element','form'], function() {
+        layui.use(['element','form','upload'], function() {
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
             var form =layui.form;
+            var upload=layui.upload;
+            var $ =layui.jquery;
             //监听导航点击
             element.on('nav(demo)', function(elem) {
                 //console.log(elem)
@@ -186,6 +194,59 @@
                         layer.msg(result.msg);
                    }
                });
+            });
+            form.verify({
+                user: [
+                    /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/, "用户名不能出现特殊字符"
+                ],
+
+                pwd: function(value, item) {
+                    if (value === "") {
+                        return "密码不能为空";
+                    }
+                    var Digital = /\d/;
+                    var Letters = /[a-zA-Z]/;
+                    if (!(Digital.test(value) && Letters.test(value) && value.length >= 0)) {
+                        return '密码必须含有字母和数字';
+                    }
+                },
+                rePwd: function(value, item) {
+                    if (value === "") {
+                        return "请输入二次密码";
+                    }
+                    var pwd = $("#L_pass").val();
+                    if (pwd != value) {
+                        return '密码与确认密码不正确';
+                    }
+                    var origin=$("input[name='oldPass']").val();
+                    if(origin==value){
+                        return '新密码不能与旧密码相同';
+                    }
+
+                }
+            });
+            form.on('submit(updatePass)',function(data){
+               $.ajax({
+                  url:'/user/changePwd'
+                  ,type:'PATCH'
+                  ,contentType:'application/json'
+                  ,data:JSON.stringify(data.field)
+                  ,success:function(result){
+                      layer.msg(result.msg);
+                   }
+               });
+            });
+            var uploadInst = upload.render({
+                elem:"#upload"
+                ,url:"/uploadImg"
+                ,before:function(obj){
+                    obj.preview(function(index,file,result){
+                       $("#avatar").attr('src',result);
+                    });
+                }
+                ,done:function(res){
+                    return layer.msg(res.msg);
+                }
             });
         });
     </script>

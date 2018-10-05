@@ -43,5 +43,4 @@
         <property name="dataSource" ref="dataSource"></property>
     </bean>
     <bean id="exceptionHandler" class="com.bbs.exception.GlobalExceptionHandler"></bean>
-
 </beans>

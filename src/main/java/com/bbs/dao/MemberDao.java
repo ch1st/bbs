@@ -1,6 +1,7 @@
 package com.bbs.dao;
 
 import com.bbs.pojo.Member;
+import org.apache.ibatis.annotations.Param;
 
 
 public interface MemberDao {
@@ -32,4 +33,19 @@ public interface MemberDao {
      * @return
      */
     public Member getMemberById(String id);
+
+    /**
+     * 更新头像地址
+     * @param member
+     */
+    public void updateAvatar(Member member);
+
+    /**
+     * 用户自行修改密码
+     * @param id
+     * @param oldPass
+     * @param newPass
+     * @return
+     */
+    public Integer updatePwd(@Param("id")String id,@Param("oldPass")String oldPass,@Param("newPass")String newPass);
 }

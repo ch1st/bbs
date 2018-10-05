@@ -62,8 +62,26 @@
         UPDATE bbs_member
           <set>
               <if test="email!=null and email!=''">email=#{email},</if>
-              city=#{city},signature=#{signature},
+              name=#{name},city=#{city},signature=#{signature},
           </set>
         WHERE id=#{id}
     </update>
+
+    <update id="updateAvatar">
+        UPDATE  bbs_member
+        <set>
+            <if test="avatar!=null and avatar!=''">avatar=#{avatar},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--修改用户密码事务-->
+    <select id="updatePwd" useCache="false" statementType="CALLABLE" resultType="Integer" >
+        <![CDATA[
+          call updatePwd(
+            #{id,mode=IN,jdbcType=VARCHAR},
+            #{oldPass,mode=IN,jdbcType=VARCHAR},
+            #{newPass,mode=IN,jdbcType=VARCHAR});
+        ]]>
+    </select>
 </mapper>
