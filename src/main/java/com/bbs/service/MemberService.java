@@ -48,6 +48,9 @@ public class MemberService {
      * @return
      */
     public Member login(Member member) {
+        Date now=new Date();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        member.setLoginTime(sdf.format(now));
         return memberDao.login(member);
     }
 

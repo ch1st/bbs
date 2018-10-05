@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.logging.SimpleFormatter;
@@ -141,6 +142,13 @@ public class UserIndexController {
         return "redirect:index";
     }
 
+    /**
+     * 富文本上传图片
+     * @param request
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @RequestMapping("/uploadImg")
     @ResponseBody
     public ReturnJson upload(HttpServletRequest request, MultipartFile file) throws IOException {
@@ -148,12 +156,18 @@ public class UserIndexController {
         String szDateFolder="";
         String szNewFileName="";
         String szFilePath="";
+        String fileType = "jpg,gif,png,bmp,jpeg";
+        String ext="";
         try{
             if(file!=null&&szFileName!=null&&szFileName.length()>0) {
                 Date date = new Date();
                 szDateFolder=new SimpleDateFormat("yyyy/MM/dd").format(date);
                 szFilePath=request.getServletContext().getRealPath("/WEB-INF/upload/")+szDateFolder;
                 File f = new File(szFilePath);
+                ext=szFileName.substring(szFileName.lastIndexOf(".")+1).toLowerCase().trim();
+                if(!Arrays.asList(fileType.split(",")).contains(ext)){
+                    return new ReturnJson(1,"上传格式不正确,请上传后缀为[.jpg,.gif,.png,.bmp,.jpeg]",0,"");
+                }
                 if(!f.exists()) {
                     f.mkdirs();
                 }

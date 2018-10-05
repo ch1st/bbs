@@ -20,19 +20,19 @@
     <meta name="format-detection" content="address=no">
     <!-- 禁止浏览器自动将地址转换 -->
     <meta name="title" content="">
-    <link rel="stylesheet" href="layui/css/layui.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/font_24081_dddajmj0coc4n29.css">
-    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/font_24081_dddajmj0coc4n29.css">
+    <link rel="stylesheet" href="/layui/css/modules/layer/default/layer.css">
+    <script src="/js/jquery.min.js"></script>
 
 </head>
 
 <body>
     <div class="forum-header">
         <div class="layui-container">
-            <a class="logo" href="/index"><img src="./img/logo.png" alt=""></a>
+            <a class="logo" href="/index"><img src="/img/logo.png" alt=""></a>
 
 
 
@@ -40,7 +40,7 @@
                 <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
 					<i class="layui-icon"></i>
 				</span>
-                <a href="/add" class="layui-btn">发表新帖</a>
+                <a href="/post/add" class="layui-btn">发表新帖</a>
             </div>
 
         </div>
@@ -53,10 +53,10 @@
                     <div class="fly-panel detail-box">
                         <form action="#" method="POST" class="layui-form">
                             <div class="layui-form-item" style="width:100%;">
-                                <input type="text" placeholder="请输入标题" class="layui-input" name="title" required style="width:100%;">
+                                <input type="text" placeholder="请输入标题" lay-verify="title" class="layui-input" name="title" required style="width:100%;">
                             </div>
                             <div class="layui-form-item">
-                                <textarea id="editText" style="display:none"></textarea>
+                                <textarea id="editText" style="display:none" lay-verify="article_content" name="content"></textarea>
                             </div>
                             <div class="layui-form-item" style="width: 50%">
 
@@ -72,7 +72,7 @@
                                 </select>
                             </div>
                             <div class="layui-form-item">
-                                <button type="button" lay-submit class="layui-btn " style="width:30%;">提交</button>
+                                <button type="button" lay-submit class="layui-btn layedit-context" style="width:30%;" data-type="content" lay-filter="post">提交</button>
                             </div>
                         </form>
                     </div>
@@ -80,7 +80,7 @@
 
                 <div class="layui-col-md4" style="position:relative; left:10px;font-size:16px">
                     <div class="fly-panel info">
-                        <img src="img/ch1st.jpg" alt="作者名字" />
+                        <img src="/img/ch1st.jpg" alt="作者名字" />
                         <div class="fly-detail-user user">
                             <a href="#" class="fly-link">
                                 <cite>ch1st</cite>
@@ -134,14 +134,63 @@
             <a href="#" target="_blank">社区小黑板</a>
 
     </div>
-    <script src="layui/layui.js"></script>
-    <script src="layui/lay/modules/form.js"></script>
-    <script src="layui/lay/modules/layer.js"></script>
-    <script src="js/index.js"></script>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/lay/modules/layer.js"></script>
+    <script src="/js/index.js"></script>
     <script>
-        layui.use('layedit', function() {
+        layui.use(['layedit','form'], function() {
             var layedit = layui.layedit;
-            layedit.build('editText');
+            var form=layui.form;
+            layedit.set({
+               uploadImage:{
+                   url:"uploadImg"
+                   ,type:"post"
+               }
+            });
+            var index=layedit.build('editText',{
+                tool:['code',
+                    'strong' //加粗
+                    ,'italic' //斜体
+                    ,'underline' //下划线
+                    ,'del' //删除线
+
+                    ,'|' //分割线
+
+                    ,'left' //左对齐
+                    ,'center' //居中对齐
+                    ,'right' //右对齐
+                    ,'link' //超链接
+                    ,'unlink' //清除链接
+                    ,'face' //表情
+                    ,'image' //插入图片
+                ]
+            });
+            form.verify({
+                title:function(value){
+                    if(value.length<5){
+                        return "标题至少输入5个字符!";
+                    }
+                }
+                ,article_content:function(value){
+                    layedit.sync(index);
+                    if(value.length<10){
+                        return value.length+"正文内容不少于10个字符!";
+                    }
+                }
+            });
+            form.on("submit(post)",function(data){
+                $.ajax({
+                   url:'doAdd'
+                   ,type:'post'
+                   ,contentType:'application/json'
+                   ,data:JSON.stringify(data.field)
+                   ,success:function(result){
+                       layer.msg(result.msg);
+                        window.parent.location.reload();
+                    }
+                });
+            });
+
         });
     </script>
 </body>

@@ -43,6 +43,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/user/**"/>
+            <mvc:mapping path="/post/**"/>
             <bean class="com.bbs.interceptor.LoginInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>

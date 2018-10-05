@@ -3,14 +3,39 @@
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
  <mapper namespace="com.bbs.dao.ArticleDao">
 
- 	<resultMap type="com.bbs.pojo.Type" id="TypeMap">
+ 	<resultMap type="com.bbs.pojo.Article" id="ArticleMap">
 		<result column="id" property="id"/>
-		<result column="name" property="name"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="type" property="type"/>
+		<result column="user" property="user"/>
+		<result column="addTime" property="addTime"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="view" property="view"/>
+		<result column="star" property="star"/>
 	</resultMap>
 
 
-    <select id="getTypes" resultMap="TypeMap">
-        SELECT * FROM bbs_types
-    </select>
+
+    <insert id="addArticle">
+        INSERT INTO bbs_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id!=''">id,</if>
+            <if test="title!=null and title!=''">title,</if>
+            content,
+            <if test="type!=null and type!=''">type,</if>
+            <if test="user!=null and user!=''">user,</if>
+            addTime,updateTime,view,star,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id!=''">#{id},</if>
+            <if test="title!=null and title!=''">#{title},</if>
+            #{content},
+            <if test="type!=null and type!=''">#{type},</if>
+            <if test="user!=null and user!=''">#{user},</if>
+            #{addTime},#{updateTime},#{view},#{star},
+        </trim>
+    </insert>
+
 
 </mapper>

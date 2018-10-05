@@ -1,13 +1,13 @@
 package com.bbs.dao;
 
-import com.bbs.pojo.Type;
-
-import java.util.List;
+import com.bbs.pojo.Article;
 
 public interface ArticleDao {
-    /**
-     * 获取文章分类
-     */
-    public List<Type> getTypes();
 
+    /**
+     * 插入文章
+     * @param article
+     * @return
+     */
+    public Integer addArticle(Article article);
 }
