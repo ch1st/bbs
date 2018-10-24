@@ -3,20 +3,71 @@
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
  <mapper namespace="com.bbs.dao.ArticleDao">
 
- 	<resultMap type="com.bbs.pojo.Article" id="ArticleMap">
-		<result column="id" property="id"/>
-		<result column="title" property="title"/>
-		<result column="content" property="content"/>
-		<result column="type" property="type"/>
-		<result column="user" property="user"/>
-		<result column="addTime" property="addTime"/>
-		<result column="updateTime" property="updateTime"/>
-		<result column="view" property="view"/>
-		<result column="star" property="star"/>
-	</resultMap>
+    <resultMap type="com.bbs.pojo.Article" id="ArticleMap">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="type" property="type"/>
+        <result column="user" property="user"/>
+        <result column="addTime" property="addTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="view" property="view"/>
+        <result column="star" property="star"/>
+        <association property="member" javaType="com.bbs.pojo.Member">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="avatar" property="avatar"/>
+            <result column="signature" property="signature"/>
+            <result column="code" property="code"/>
+        </association>
+        <association property="types" javaType="com.bbs.pojo.Type">
+            <result column="TypeName" property="name"/>
+        </association>
+    </resultMap>
 
+    <select id="topArticles" resultMap="ArticleMap">
+       SELECT
+        c.avatar,
+        c.name,
+        c.id as content,
+        a.title,
+        a.id ,
+        a.updateTime,
+        a.star,
+        b.name TypeName,
+        a.view
+    FROM
+        bbs_article a
+        join bbs_types b
+        on a.type=b.id
+        join bbs_member c
+        on a.user=c.id
+    ORDER BY
+        star DESC
+        LIMIT 0,4
+    </select>
 
-
+    <update id="addStar">
+        UPDATE bbs_article
+        <set>
+            <if test="star!=null and star!=''">star=#{star},</if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="subStar">
+        UPDATE bbs_article
+        <set>
+            <if test="star!=null and star!=''">star=#{star},</if>
+        </set>
+        where id=#{id}
+    </update>
+    <update id="addView">
+        UPDATE bbs_article
+        <set>
+            <if test="view!=null and view!=''">view=${view},</if>
+        </set>
+        where id=#{id}
+    </update>
     <insert id="addArticle">
         INSERT INTO bbs_article
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -37,5 +88,103 @@
         </trim>
     </insert>
 
+    <select id="getArticleByID" resultMap="ArticleMap">
+        SELECT
+            a.title,
+            a.VIEW,
+            a.content,
+            a.updateTime,
+            a.star,
+            b.NAME as TypeName,
+            c.avatar,
+            c.NAME,
+            c.id,
+            c.signature
+        FROM
+            bbs_article a
+            INNER JOIN bbs_types b ON a.type = b.id
+            INNER JOIN bbs_member c ON c.id = a.user
+            where a.id=#{ArticleID}
+    </select>
 
+    <select id="getIndexArticle" resultMap="ArticleMap">
+     <choose>
+         <when test="tab==0">
+             SELECT
+             a.title,
+             a.id,
+             a.star,
+             a.view,
+             a.updateTime,
+             b.avatar,
+             b.name,
+             b.id as code,
+             t.name as TypeName
+             FROM
+             bbs_article a
+             JOIN bbs_member b ON a.USER = b.id
+             JOIN bbs_types t ON a.type = t.id
+             ORDER BY
+             updateTime
+         </when>
+         <otherwise>
+             SELECT
+             a.title,
+             a.id,
+             a.star,
+             a.VIEW,
+             a.updateTime,
+             b.avatar,
+             b.NAME,
+             b.id AS CODE,
+             t.NAME AS TypeName
+             FROM
+             bbs_article a
+             JOIN bbs_member b ON a.USER = b.id
+             JOIN bbs_types t ON a.type = t.id
+             WHERE
+             t.id = #{tab}
+             ORDER BY
+             updateTime
+         </otherwise>
+     </choose>
+    </select>
+
+    <select id="getTopViewArticle" resultMap="ArticleMap">
+        SELECT
+            title,
+            id
+        FROM
+            bbs_article
+        ORDER BY
+        VIEW DESC
+            LIMIT 0,
+            10
+    </select>
+
+    <select id="getArticle" resultMap="ArticleMap">
+        SELECT
+            a.id as user,
+            title,
+            content,
+            b.NAME AS TypeName,
+            b.id
+        FROM
+            bbs_article a
+            JOIN bbs_types b ON a.type = b.id
+        WHERE
+            a.id = #{id}
+        AND a.USER = #{userId}
+    </select>
+
+    <update id="updateArticle">
+        UPDATE bbs_article
+        <set>
+            <if test="title!=null and title!=''">title=#{title},</if>
+            <if test="updateTime!=null and updateTime!=''">updateTime=#{updateTime},</if>
+            <if test="content!=null and content!=''">content=#{content},</if>
+            <if test="type!=null and type!=''">type=#{type},</if>
+        </set>
+        where id=#{id}
+    </update>
 </mapper>

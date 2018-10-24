@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-
+<#if article??>
 <head>
     <meta charset="UTF-8">
-    <title>社区首页</title>
+    <title>${article.title}</title>
     <!-- 设置横屏、竖屏显示，portrait 横屏，landscape 竖屏-->
     <meta name="x5-orientation" content="portrait|landscape">
     <!-- uc强制竖屏 -->
@@ -20,234 +20,123 @@
     <meta name="format-detection" content="address=no">
     <!-- 禁止浏览器自动将地址转换 -->
     <meta name="title" content="">
-    <link rel="stylesheet" href="layui/css/layui.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/font_24081_dddajmj0coc4n29.css">
-    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/font_24081_dddajmj0coc4n29.css">
+    <link rel="stylesheet" href="/layui/css/modules/layer/default/layer.css">
+    <script src="/js/jquery.min.js"></script>
 
 </head>
 
 <body>
     <div class="forum-header">
         <div class="layui-container">
-            <a class="logo" href="#"><img src="./img/logo.png" alt=""></a>
+            <a class="logo" href="/index"><img src="/img/logo.png" alt=""></a>
 
-
+            <#if Session['member']?exists>
+            <div class="fly-column-right layui-hide-xs" style="top:15px;">
+                <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
+					<i class="layui-icon"></i>
+				</span>
+                <a href="/post/add" class="layui-btn">发表新帖</a>
+            </div>
+            <#else>
             <ul class="login layui-nav forum-nav " id="login">
                 <a href="#">
                     <li class="layui-nav-item"><a href="#" class="subLogin"><i class="layui-icon layui-icon-username" style="font-size: 16px;color: black"> </i>登陆</li></a></a>
                 <a href="#">
                     <li class="layui-nav-item"><a href="#" id="subReg"><i class="layui-icon layui-icon-water" style="font-size: 16px;color: black"></i>注册</li></a></a>
             </ul>
-            <!-- <div class="fly-column-right layui-hide-xs" style="top:15px;">
-                <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
-					<i class="layui-icon"></i>
-				</span>
-                <a href="/jie/add/" class="layui-btn">发表新帖</a>
-            </div> -->
+        </#if>
 
-        </div>
+
+    </div>
     </div>
 
     <div class="layui-row layui-col-space15" style="margin-top:20px">
         <div class="layui-container">
             <div class="layui-row">
-                <div class="layui-col-md8">
+                <div class="layui-col-md15">
                     <div class="fly-panel detail-box">
-                        <h1>table 如何更优雅的 reload</h1>
-                        <div class="fly-detail-info"> <span class="layui-badge layui-bg-green fly-detail-column"> 讨论 </span> <span class="layui-badge" style="background-color: #999;">未结</span> <span class="layui-badge layui-bg-black">置顶</span> <span class="layui-badge layui-bg-red">精帖</span>
-                            <div class="fly-admin-box" data-id="33664"> </div> <span class="fly-list-nums"> <a href="#comment"><i class="iconfont" title="回答"></i> 23</a> <i class="iconfont" title="人气"></i> 1050 </span> </div>
-                        <div class="detail-about">
-                            <a class="fly-avatar" href="/u/6497232/"> <img src="https://cdn.layui.com/avatar/6497232.jpg?t=1523408456711" alt="岁月小偷"> </a>
-                            <div class="fly-detail-user">
-                                <a href="/u/6497232/" class="fly-link"> <cite>岁月小偷</cite> <i class="iconfont icon-renzheng" title="认证信息：2018年度 layui “社区之光”"></i> <i class="layui-badge fly-badge-vip">VIP3</i> </a> <span>2天前</span> </div>
-                            <div class="detail-hits" id="LAY_jieAdmin" data-id="33664">
-                                <span style="padding-right: 10px; color: #FF7200">悬赏：50飞吻</span> <span class="layui-btn layui-btn-xs jie-admin " type="collect" data-type="add">收藏</span></div>
+                        <h1>${article.title}</h1>
+                        <div class="fly-detail-info">
+                            <span class="layui-badge layui-bg-green fly-detail-column"> ${article.type} </span>
+                            <div class="jieda-reply t-star" style="position: relative;right:100px;float:right;bottom:4px;">
+                                <span class="jieda-zan " type="zan"  >
+                                    <i class="iconfont icon-zan" ></i>
+                                    <em>${article.star!'0'}</em>
+                                </span>
+                            </div>
+
+                            <span class="fly-list-nums">
+                                    <a href="#comment"><i class="iconfont" title="回答"></i> ${article.count}</a>
+                                    <i class="iconfont" title="人气"></i> ${article.view}
+                                </span>
+
                         </div>
-                        <div class="detail-body layui-text photos"> 午休大放送，一直以来表格的重载经常被人诟病说会闪体验不好，想要做成点击底下laypage模块一样的效果，甚至有比较极端的说reload这样子的效果是个bug之类的。实际上要理解重载跟重新请求数据这两的区别，reload定义为重载，可以对里面的设置进行修改重载整个table视图，那么干掉原始节点重新生成新的节点这个应该是没有什么异议的，特别是异步请求的时候而且没有设置高度的时候，就会觉得闪的厉害的情况。比较懒，之前的处理方式一般就是定一个高度，也会变得不那么闪，但是新版本新加了头部工具栏之后就迫使不得不破这个问题了。<br><br>那么，个人看法，一般的解决思路有两种：<br><br>第一种，不要一开始就清空，而是等到后面内容全部组装ok了再覆盖进去，实际应该有一定的作用，但是效果估计也还是会看到“闪”的效果，然后新版本的比如头部按钮区域的有输入框啥的，重载之后还是会重新构建了里面的内容，然后以前输入的值就over了。<br><br>第二种，把重载和重新请求数据分开，做到跟点击分页相似，但是实际是有区别的，点击分页不会涉及到其他的比如接口变化，传参变化等，所以它可以做的非常简单，但是重新请求数据这个就不是那么简单处理了，还得考虑让它能够修改参数。这个能做出来就基本可以达到只是重新请求数据然后更新td的内容还有分页的内容。<br>
-                            <div class="layui-elem-quote"> 说了这么多文字了，估计耐心要耗尽。先来个最终效果图吧，因为方式一不是最好的直接弃用，采用方式二达到了下面的效果。</div><img src="https://cdn.layui.com/upload/2018_9/6497232_1536296768705_44807.gif" layer-index="0"> <br>可能觉得没看出啥，实际上有一个比较明显的就是工具栏input里面的输入没有被清空，没有被重新建，而且其实我是短时间内连续点击重载表格不下10次的，也不会看到页面“闪”的感觉，第一次重载因为是条数变少了所以内容区域变小了，这个是正常的，因为没有设置高度，它就是根据实际的内容来的，没有那么多了自然会收起来。<br>
-                            <div class="layui-elem-quote"> 对比一下原始的感受一下吧。</div><img src="https://cdn.layui.com/upload/2018_9/6497232_1536296998592_49118.gif" layer-index="1"> <br>
-                            <div class="layui-elem-quote"> 重点的来了，如何实现？</div>上面也介绍了，方法一行不通的，所以采用方法二，将重载和重新请求数据分开，这个一开始觉是添加一个request的方法。跟reload区分开，但是后面一想，为了达到更小的修改代码的成本，决定还是对reload的方法进行改造，让他既支持重载又支持重新请求数据，那么一般来说就是添加多一个参数，好了下面废话不多说直接上修改代码的截图，里面的注释大概就是思路了，帖子最后会提供测试的代码还有table.js的下载地址。<br>
-                            <div class="layui-elem-quote">
-                                源码修改的地方</div>1，thisTable 添加一个存储所有实例的变量<br><img src="https://cdn.layui.com/upload/2018_9/6497232_1536298045113_8305.png" layer-index="2"> <br>2，创建实例的时候将对应的实例保存起来<br><img src="https://cdn.layui.com/upload/2018_9/6497232_1536298102598_54534.png"
-                                layer-index="3"> <br>3，定义一个当前组件使用的跟数据接口相关的参数数组，还有重写reload<br><img src="https://cdn.layui.com/upload/2018_9/6497232_1536298156351_53691.png" layer-index="4"> <br>
-                            <div class="layui-elem-quote"> 修改完毕之后如何使用？这个其实很简单，主要你在认为不需要重载的时候，以前发的reload还是那样子写，只不过多加一个参数，就变成了重新请求的模式了。然后如果还是重载比如你要修改工具条toolbar或者啥的涉及到改变table的组织结构的话就还是以前的老套路，两个参数就行了。具体看下面示例截图。</div><img src="https://cdn.layui.com/upload/2018_9/6497232_1536298387670_68824.png"
-                                layer-index="5"> <br>然后还有一个情况如果你查询条件啥的都没有变，只是重新查一下当前的这个表格，那么可以写成下面的<br>table.reload(tableId, true);<br>
-                            <div class="layui-elem-quote"> 最后是测试代码和修改过的table.js的下载链接: <a href="https://pan.baidu.com/s/1OjwwVmjy02wRQ0rT1euLlQ" target="_blank" rel="nofollow">https://pan.baidu.com/s/1OjwwVmjy02wRQ0rT1euLlQ</a> </div>
-                            <div class="layui-elem-quote"> 可能会有小伙伴会察觉，另外一个reload呢？返回实例中的那个reload，因为实在基本是弃用状态，所以也没有去整理，所以目前只改了table.reload这个，tableIns.reload这个还是原来的。</div>
-                            <div class="layui-elem-quote"> ※更新于：2018年9月7日15:47:53 那么还能对以前的代码影响更小吗？能否做到只要更新了table.js的逻辑其他的业务代码不需要任何修改就能够做到reload的时候自动识别出是重载或者重新请求数据呢？</div>思路就是全权交给reload来处理，当然这里有个分岔口，以上的修改，能够做到的是明确指定是哪种方式，而且比如指定了重新请求那么即使你的参数里面多写了一些其他的限定范围外的属性也会被干掉，不会造成干扰，这个算是个优点，所以上面的那种方法，可以说有两个有点，一个是可以明确指定，第二个是指定了设置也会进行监控过滤，缺点是：需要调整业务代码把以前写的需要换成重新请求数据形式的reload都改一遍。下面是一个可以完全不修改以前业务代码的逻辑，让reload自己来判断是哪一种方式的实现，优点很明显，以前的代码不需要任何变动而且后面的也是，当然这个是建立一个认识就是完全依赖reload里面传过去的那个options来断定，而没有说自己强制指定某种方式的支持。后面说的这个算是个缺点吧。关键看能否接受这个认识了。<br>
-                            <div class="layui-elem-quote"> 智能选择reload的方式的源码修改，前面几个修改跟上面那种方式一样，只有最后的reload重写这部分有区别</div><img src="https://cdn.layui.com/upload/2018_9/6497232_1536307540039_17173.png" layer-index="6"> <br>这样子修改了之后你原先的业务代码就可以不做任何修改就能够支持特定情况下只是重载数据，然后其他的情况就是重载表格<br><pre>table.reload(tableId, {toolbar: false, {page: {curr: 1}}, where:{}});    // 重载表格<br>table.reload(tableId, {{page: {curr: 1}}, where:{}});    // 重新请求数据<br>※条件约束是reload的第二个参数里面不要出现下方数组成员以外的配置信息就是重新请求数据，但凡出现任何一个其他的，就是重载表格。</pre>
-                            <div class="layui-elem-quote"> 约束数组：['url', 'method', 'where', 'contentType', 'headers', 'parseData', 'request', 'response', 'data', 'page']</div>
-                            <div class="layui-elem-quote"> ※ 发现了一个漏网的属性initSort，</div><img src="https://cdn.layui.com/upload/2018_9/6497232_1536404373059_4194.png" layer-index="7"> </div>
-                    </div>
+                        <div class="detail-about"  style="font-size: 14px;">
+                            <a class="fly-avatar" href="/u/${article.userId}/"> <img src="${article.avatar!'/img/ch1st.jpg'}" alt="${article.name}"> </a>
+                            <div class="fly-detail-user">
+                                <a href="/u/${article.userId}/" class="fly-link"> <cite  style="font-size: 16px;">${article.name}</cite> <i class="iconfont icon-renzheng" title="正式会员"></i> <i class="layui-badge fly-badge-vip">会员</i> </a> <span>${article.updateTime}</span> </div>
+                            <div class="detail-hits" id="LAY_jieAdmin" data-id="">
+                                <#if (article.isUser)??>
+                                    <a href="/post/edit/${article.id}" class="href"><span class="layui-btn layui-btn-xs jie-admin " type="collect" data-type="add">编辑此帖</span></a>
+                                <#else>
+                                    <span>${article.signature!'<br/>'}</span>
+                                </#if>
+                        </div>
+                        </div>
+                        <div style="font-size:16px;">
+                            <br/>
+                            <hr/>
+                            ${article.content}
+                        </div>
+                    <br/>
+
                     <div class="fly-panel detail-box" id="flyReply">
                         <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
                             <legend>回帖</legend>
                         </fieldset>
+                        <#if word??>
+                            <#list word as w>
                         <ul class="jieda" id="jieda">
                             <li data-id="134520">
                                 <a name="item-1536299335086"></a>
                                 <div class="detail-about detail-about-reply">
-                                    <a class="fly-avatar" href="/u/6497232/"> <img src="//cdn.layui.com/avatar/6497232.jpg?t=1523408456711" alt="岁月小偷"> </a>
+                                    <a class="fly-avatar" href="/u/${w.userId}"> <img src="${w.avatar!'/img/ch1st.jpg'}" alt="${w.name}"> </a>
                                     <div class="fly-detail-user">
-                                        <a href="/u/6497232/" class="fly-link"> <cite>岁月小偷</cite> <i class="iconfont icon-renzheng" title="认证信息：2018年度 layui “社区之光”"></i> <i class="layui-badge fly-badge-vip">VIP3</i> </a>
+                                        <a href="/u/${w.userId}/" class="fly-link"> <cite>${w.name}</cite> <i class="iconfont icon-renzheng" title="会员"></i> <i class="layui-badge fly-badge-vip">会员</i> </a>
                                     </div>
-                                    <div class="detail-hits"> <span>2天前</span> </div>
+                                    <div class="detail-hits"> <span>${w.date}</span> </div>
                                 </div>
-                                <div class="detail-body layui-text jieda-body photos"> 链接忘记写了，一会回去加上其实就跟上个帖子里面的链接一样的 </div>
-                                <div class="jieda-reply"> <span class="jieda-zan " type="zan"> <i class="iconfont icon-zan"></i> <em>3</em> </span> <span type="reply"> <i class="iconfont icon-svgmoban53"></i> 回复 </span> </div>
-                            </li>
-                            <li data-id="134569">
-                                <a name="item-1536303197678"></a>
-                                <div class="detail-about detail-about-reply">
-                                    <a class="fly-avatar" href="/u/20996808/"> <img src="/img/ch1st.jpg" alt="哈哦哈哦"> </a>
-                                    <div class="fly-detail-user">
-                                        <a href="/u/20996808/" class="fly-link"> <cite>哈哦哈哦</cite> </a>
-                                    </div>
-                                    <div class="detail-hits"> <span>2天前</span> </div>
-                                </div>
-                                <div class="detail-body layui-text jieda-body photos"> <img alt="[good]" title="[good]" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/d8/good_thumb.gif" layer-index="8"> <img alt="[good]" title="[good]" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/d8/good_thumb.gif"
-                                        layer-index="9"> <img alt="[good]" title="[good]" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/d8/good_thumb.gif" layer-index="10"> </div>
-                                <div class="jieda-reply"> <span class="jieda-zan " type="zan"> <i class="iconfont icon-zan"></i> <em>1</em> </span> <span type="reply"> <i class="iconfont icon-svgmoban53"></i> 回复 </span> </div>
-                            </li>
-                            <li data-id="134568">
-                                <a name="item-1536303170710"></a>
-                                <div class="detail-about detail-about-reply">
-                                    <a class="fly-avatar" href="/u/316848/"> <img src="http://q.qlogo.cn/qqapp/101235792/8EA8E3EF42904ABDF5BC8BBCF6A32A3B/100" alt="宝龙码农"> </a>
-                                    <div class="fly-detail-user">
-                                        <a href="/u/316848/" class="fly-link"> <cite>宝龙码农</cite> <i class="layui-badge fly-badge-vip">VIP3</i> </a>
-                                    </div>
-                                    <div class="detail-hits"> <span>2天前</span> </div>
-                                </div>
-                                <div class="detail-body layui-text jieda-body photos"> @<a href="javascript:;" class="fly-aite">点烟燃人生2号</a> <br>哈哈戴副眼镜吧~~<img alt="[害羞]" title="[害羞]" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/6e/shamea_thumb.gif" layer-index="15"> </div>
-                                <div class="jieda-reply">
-                                    <span class="jieda-zan " type="zan"> <i class="iconfont icon-zan"></i> <em>0</em> </span> <span type="reply"> <i class="iconfont icon-svgmoban53"></i> 回复 </span> </div>
-                            </li>
-                            <li data-id="134579">
-                                <a name="item-1536305195795"></a>
-                                <div class="detail-about detail-about-reply">
-                                    <a class="fly-avatar" href="/u/10214232/"> <img src="//cdn.layui.com/avatar/10214232.gif?t=1536305627626" alt="BUG开发工程师"> </a>
-                                    <div class="fly-detail-user">
-                                        <a href="/u/10214232/" class="fly-link"> <cite>BUG开发工程师</cite> </a>
-                                    </div>
-                                    <div class="detail-hits"> <span>2天前</span> </div>
-                                </div>
-                                <div class="detail-body layui-text jieda-body photos"> 厉害厉害········<img alt="[围观]" title="[围观]" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/f2/wg_thumb.gif" layer-index="16"> <img alt="[围观]" title="[围观]" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/f2/wg_thumb.gif"
-                                        layer-index="17"> </div>
-                                <div class="jieda-reply"> <span class="jieda-zan " type="zan"> <i class="iconfont icon-zan"></i> <em>0</em> </span> <span type="reply"> <i class="iconfont icon-svgmoban53"></i> 回复 </span> </div>
-                            </li>
-                            <li data-id="134584">
-                                <a name="item-1536305616335"></a>
-                                <div class="detail-about detail-about-reply">
-                                    <a class="fly-avatar" href="/u/6497232/"> <img src="//cdn.layui.com/avatar/6497232.jpg?t=1523408456711" alt="岁月小偷"> </a>
-                                    <div class="fly-detail-user">
-                                        <a href="/u/6497232/" class="fly-link"> <cite>岁月小偷</cite> <i class="iconfont icon-renzheng" title="认证信息：2018年度 layui “社区之光”"></i> <i class="layui-badge fly-badge-vip">VIP3</i> </a>
-                                    </div>
-                                    <div class="detail-hits"> <span>2天前</span> </div>
-                                </div>
-                                <div class="detail-body layui-text jieda-body photos"> @<a href="javascript:;" class="fly-aite">点烟燃人生2号</a> 排版不好太密集了哈<img alt="[黑线]" title="[黑线]" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/91/h_thumb.gif" layer-index="18"> </div>
-                                <div class="jieda-reply">
-                                    <span class="jieda-zan " type="zan"> <i class="iconfont icon-zan"></i> <em>0</em> </span> <span type="reply"> <i class="iconfont icon-svgmoban53"></i> 回复 </span> </div>
-                            </li>
-                            <li data-id="134586">
-                                <a name="item-1536305652005"></a>
-                                <div class="detail-about detail-about-reply">
-                                    <a class="fly-avatar" href="/u/6497232/"> <img src="//cdn.layui.com/avatar/6497232.jpg?t=1523408456711" alt="岁月小偷"> </a>
-                                    <div class="fly-detail-user">
-                                        <a href="/u/6497232/" class="fly-link"> <cite>岁月小偷</cite> <i class="iconfont icon-renzheng" title="认证信息：2018年度 layui “社区之光”"></i> <i class="layui-badge fly-badge-vip">VIP3</i> </a>
-                                    </div>
-                                    <div class="detail-hits"> <span>2天前</span> </div>
-                                </div>
-                                <div class="detail-body layui-text jieda-body photos"> @<a href="javascript:;" class="fly-aite">BUG开发工程师</a> thanks<img alt="[微笑]" title="[微笑]" src="http://img.t.sinajs.cn/t4/appstyle/expression/ext/normal/5c/huanglianwx_thumb.gif" layer-index="19"> </div>
-                                <div class="jieda-reply">
-                                    <span class="jieda-zan " type="zan"> <i class="iconfont icon-zan"></i> <em>0</em> </span> <span type="reply"> <i class="iconfont icon-svgmoban53"></i> 回复 </span> </div>
-                            </li>
+                                <br/>
 
-
+                                ${w.replyContent}
+                                <div class="jieda-reply r-star"> <span class="jieda-zan " type="zan"> <i class="iconfont icon-zan"></i> <em>3</em> </span> <span type="reply"> <i class="iconfont icon-svgmoban53"></i> 回复 </span> </div>
+                            </li>
                         </ul>
-                        <div style="text-align: center"> </div>
-                        <a name="comment"> </a>
-                        <div class="layui-form layui-form-pane">
-                            <textarea id="editText" style="display: none;"></textarea>
-                            <br/>
-                            <button class="layui-btn" style="width:150px;">提交</button>
-                        </div>
+                        </a>
+                    </#list>
+                    </#if>
+                        <#if !(article.isLogin)??>
+                            <div style="text-align: center"> </div>
+                            <a name="comment"> </a>
+                            <div class="layui-form layui-form-pane">
+                                <textarea id="editText" style="display: none;" lay-verify="article_content" name="replyContent"></textarea>
+                                <br/>
+                                <input type="hidden" value="${article.id}" name="tId"/>
+                                <button class="layui-btn" style="width:150px;" lay-submit lay-filter="commit">提交</button>
+                            </div>
+                        <#else>
+                            <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+                                <legend>登陆后可回帖</legend>
+                            </fieldset>
+                        </#if>
                     </div>
                 </div>
 
-                <div class="layui-col-md4" style="position:relative; left:10px;font-size:16px">
-                    <div class="fly-panel info">
-                        <img src="img/ch1st.jpg" alt="作者名字" />
-                        <div class="fly-detail-user user">
-                            <a href="#" class="fly-link">
-                                <cite>ch1st</cite>
-                            </a>
-                            <span>这个人很懒，什么都没写哦</span>
-                        </div>
-                        <span class="fly-function" style="font-size:16px">
-									<a href="#">
-										<i class="layui-icon layui-icon-set" title="设置"></i>
-										设置
-									</a>
-									<a href="#">
-						     			<i class="layui-icon layui-icon-notice" title="消息"></i>
-										消息
-                                     </a>
-                                     <a href="#">
-                                            <i class="layui-icon layui-icon-close" title="退出"></i>
-                                           注销
-                                        </a>
-								 </span>
-                        <br/>
-                        <br/>
-                        <div class="fly-panel-title fly-filter func">
-                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                <tbody>
-                                    <tr>
-                                        <td width="25%" align="center" height="12%">
-                                            <a href="#">
-                                                <span class="bigger">100</span>
-                                                <div class="spe3"></div>
-                                                <span class="fade">主&nbsp;&nbsp;&nbsp;题</span>
-                                            </a>
-                                        </td>
-                                        <td width="25%" align="center" style="border-left: 1px solid rgba(100, 100, 100, 0.4); border-right: 1px solid rgba(100, 100, 100, 0.4);">
-                                            <a href="#">
-                                                <span class="bigger">20</span>
-                                                <div class="spe3"></div>
-                                                <span class="fade">收&nbsp;&nbsp;&nbsp;藏</span>
-                                            </a>
-                                        </td>
-                                        <td width="50%" align="center">
-                                            <a href="#">
-                                                <span class="bigger">2018-08-08 15:00:00</span>
-                                                <div class="spe3"></div>
-                                                <span class="fade">上次登陆</span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- <h3 class="fly-panel-title">
-                            <center>Young-OG社区</center>
-                        </h3>
-                        <h5 class="fly-panel-title">
-                            <center>一个关于分享和探索的地方</center>
-                        </h5>
-                        <div class="layui-row fly-panel-main" style="padding: 15px;">
-                            <center>
-                                <button class="layui-btn layui-btn-primary signin subLogin">现在登陆</button>
-                            </center>
-                        </div> -->
-                        <br/>
 
-                    </div>
-
-
-                </div>
             </div>
         </div>
     </div>
@@ -266,16 +155,93 @@
             <a href="#" target="_blank">社区小黑板</a>
 
     </div>
-    <script src="layui/layui.js"></script>
-    <script src="layui/lay/modules/form.js"></script>
-    <script src="layui/lay/modules/layer.js"></script>
-    <script src="js/index.js"></script>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/lay/modules/layer.js"></script>
+    <script src="/js/index.js"></script>
     <script>
-        layui.use('layedit', function() {
+        $(".t-star").on('click',function(){
+           $.ajax({
+               url:'/post/star'
+               ,type:'post'
+               ,contentType:"application/json"
+               ,data:JSON.stringify({
+                   "userId":"${article.userId}",
+                   "articleId":"${article.id}"
+               })
+               ,success:function(result){
+                   if(result.match("html")){
+                        layer.msg("未登录");
+                       setTimeout('window.parent.location.reload()',1000);
+                   }else{
+                       layer.msg(result.msg,{time:2000});
+                       setTimeout('window.parent.location.reload()',1500);
+                   }
+               }
+           });
+        });
+        $(".r-star").on('click',function(){
+            alert(2);
+        });
+    </script>
+    <script>
+        layui.use(['layedit','form'], function() {
             var layedit = layui.layedit;
-            layedit.build('editText');
+            var form=layui.form;
+            layedit.set({
+                uploadImage:{
+                    url:"/post/uploadImg"
+                    ,type:"post"
+                }
+            });
+            var index=layedit.build('editText',{
+                tool:['code',
+                    'strong' //加粗
+                    ,'italic' //斜体
+                    ,'underline' //下划线
+                    ,'del' //删除线
+
+                    ,'|' //分割线
+
+                    ,'left' //左对齐
+                    ,'center' //居中对齐
+                    ,'right' //右对齐
+                    ,'link' //超链接
+                    ,'unlink' //清除链接
+                    ,'face' //表情
+                    ,'image' //插入图片
+                ]
+            });
+            form.verify({
+                title:function(value){
+                    if(value.length<5){
+                        return "标题至少输入5个字符!";
+                    }
+                }
+                ,article_content:function(value){
+                    layedit.sync(index);
+                    if(value.length<10){
+                        return "正文内容不少于10个字符!";
+                    }
+                }
+            });
+            form.on("submit(commit)",function(data){
+                $.ajax({
+                    url:'/post/addWord'
+                    ,type:'post'
+                    ,contentType:'application/json'
+                    ,data:JSON.stringify(data.field)
+                    ,dataType:"json"
+                    ,success:function(result){
+                        layer.msg(result.msg,{time:2000});
+                        setTimeout('window.parent.location.reload()',2000);
+                    }
+                });
+            });
+
+
         });
     </script>
 </body>
 
 </html>
+</#if>

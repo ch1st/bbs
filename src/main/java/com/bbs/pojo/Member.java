@@ -18,6 +18,7 @@ public class Member implements Serializable {
     private String city;
     private String signature;
 
+
     public String getCity() {
         return city;
     }

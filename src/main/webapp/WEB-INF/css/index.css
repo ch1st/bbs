@@ -129,14 +129,13 @@ a.tab {
     display: inline-block;
     padding: 5px 8px 15px 8px;
     line-height: 15px;
-    margin-left: 20px;
     font-size: 15px;
 }
 
 a.tab_current {
     display: inline-block;
     font-size: 14px;
-    line-height: 14px;
+    line-height: 15px;
     font-weight: bold;
     background: rgba(79, 184, 129, 1.0);
     color: white;
@@ -373,7 +372,22 @@ ul {
 .r-nick {
     float: left;
 }
-
+.r-avatar{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: #999 1px solid;
+    border-radius: 4px;
+    padding: 1px;
+    margin: 1.5px 10px 0px 0px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    background: #fff;
+    width: 44px;
+    height: 44px;
+    max-width: 100%;
+    float: left;
+}
 .r-time {
     margin-left: 15px;
     float: left;
@@ -384,13 +398,13 @@ ul {
 
 .helptext {
     position: relative;
-    left: -250px;
+    left: -210px;
     color: #cccccc;
     font-weight: bold;
 }
 
 .r-topic {
-    margin-top: 20px;
+    margin-top: 5px;
     margin-bottom: 5px;
     float: left;
     color: #333;
@@ -400,7 +414,14 @@ ul {
     text-shadow: 0 1px 0 #fff;
     font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
-
+.r-topic a{
+    display:block;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+    width:400px;
+    text-align:left;
+}
 .navs li a:hover {
     color: white !important;
     background-color: #009688 !important;

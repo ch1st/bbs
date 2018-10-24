@@ -4,7 +4,7 @@
  <mapper namespace="com.bbs.dao.MemberDao">
 
  	<resultMap type="com.bbs.pojo.Member" id="MemberMap">
-		<result column="id" property="id"/>
+		<id column="id" property="id"/>
 		<result column="name" property="name"/>
 		<result column="username" property="username"/>
 		<result column="password" property="password"/>
@@ -19,6 +19,21 @@
         <result column="signature" property="signature"/>
 	</resultMap>
 
+    <resultMap type="com.bbs.pojo.Article" id="ArticleMap">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="type" property="type"/>
+        <result column="user" property="user"/>
+        <result column="addTime" property="addTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="view" property="view"/>
+        <result column="star" property="star"/>
+        <association property="member" javaType="com.bbs.pojo.Member">
+            <result column="name" property="name"/>
+            <result column="avatar" property="avatar"/>
+        </association>
+    </resultMap>
     <select id="getMemberById" resultMap="MemberMap">
         select * from bbs_member where id=#{id}
     </select>
@@ -83,5 +98,44 @@
             #{oldPass,mode=IN,jdbcType=VARCHAR},
             #{newPass,mode=IN,jdbcType=VARCHAR});
         ]]>
+    </select>
+
+    <!--个人主页-->
+    <select id="getInfo"  resultMap="ArticleMap">
+        select a.id,title,updateTime,user,b.name,b.avatar from bbs_article a
+        inner join bbs_member b
+        on a.user=b.id
+        where a.user=#{user}
+        order by updateTime desc
+    </select>
+
+    <select id="getIndexMember" resultMap="MemberMap">
+       SELECT
+            a.avatar,
+            a.NAME,
+            a.id,
+            count( b.replyContent ) AS email
+        FROM
+            bbs_member AS a
+            LEFT JOIN bbs_word b ON a.id = b.USER
+        GROUP BY
+            a.id
+        ORDER BY
+            email DESC
+            LIMIT 0,
+            20
+    </select>
+
+    <update id="updateLoginTimeAndIP">
+        UPDATE bbs_member
+        <set>
+            <if test="loginIP!=null and loginIP!=''">loginIP=#{loginIP},</if>
+            <if test="loginTime!=null and loginTime!=''">loginTime=#{loginTime},</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="getUserInfo" resultMap="MemberMap">
+        select name,avatar,signature,regTime from bbs_member where id=#{id}
     </select>
 </mapper>

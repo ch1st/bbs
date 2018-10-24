@@ -2,15 +2,17 @@ package com.bbs.service;
 
 import com.bbs.dao.MemberDao;
 import com.bbs.exception.CustomerException;
-import com.bbs.exception.GlobalExceptionHandler;
+import com.bbs.pojo.Article;
 import com.bbs.pojo.Member;
+import com.bbs.utils.GetTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-import com.bbs.utils.getUUID;
+import com.bbs.utils.GetUUID;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service("MemberService")
 public class MemberService {
@@ -25,10 +27,8 @@ public class MemberService {
      * @return
      */
     public Integer insertMember(Member member) throws CustomerException {
-        Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        member.setRegTime(sdf.format(now));
-        member.setId(getUUID.getUUID());
+        member.setRegTime(GetTime.getNow());
+        member.setId(GetUUID.getUUID());
         member.setName(member.getUsername());
         member.setStatus(0); //0是允许登陆
         System.out.println(member.toString());
@@ -48,9 +48,7 @@ public class MemberService {
      * @return
      */
     public Member login(Member member) {
-        Date now=new Date();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        member.setLoginTime(sdf.format(now));
+        member.setLoginTime(GetTime.getNow());
         return memberDao.login(member);
     }
 
@@ -95,5 +93,40 @@ public class MemberService {
      */
     public Integer updatePwd(String id,String oldPass,String newPass){
         return memberDao.updatePwd(id,oldPass,newPass);
+    }
+
+    /**
+     * 个人中心获取帖子
+     * @param userId
+     * @return
+     */
+    public List<Article> getInfo(String userId){
+        return memberDao.getInfo(userId);
+    }
+
+    /**
+     * 获取首页会员
+     * @return
+     */
+    public List<Member> getIndexMember(){
+        return memberDao.getIndexMember();
+    }
+
+    /**
+     * 追加登录时间和登录IP
+     * @param id
+     */
+    public void updateLoginTimeAndIP(String loginIP,String id){
+        String loginTime=GetTime.getNow();
+        memberDao.updateLoginTimeAndIP(loginIP,loginTime,id);
+    }
+
+    /**
+     * 获取首页会员信息
+     * @param id
+     * @return
+     */
+    public Member getUserInfo(String id){
+        return memberDao.getUserInfo(id);
     }
 }

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>社区首页</title>
+    <title>个人中心</title>
     <!-- 设置横屏、竖屏显示，portrait 横屏，landscape 竖屏-->
     <meta name="x5-orientation" content="portrait|landscape">
     <!-- uc强制竖屏 -->
@@ -20,33 +20,27 @@
     <meta name="format-detection" content="address=no">
     <!-- 禁止浏览器自动将地址转换 -->
     <meta name="title" content="">
-    <link rel="stylesheet" href="layui/css/layui.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/font_24081_dddajmj0coc4n29.css">
-    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/font_24081_dddajmj0coc4n29.css">
+    <link rel="stylesheet" href="/layui/css/modules/layer/default/layer.css">
+    <script src="/js/jquery.min.js"></script>
 
 </head>
 
 <body>
     <div class="forum-header">
         <div class="layui-container">
-            <a class="logo" href="#"><img src="./img/logo.png" alt=""></a>
+            <a class="logo" href="#"><img src="/img/logo.png" alt=""></a>
 
 
-            <ul class="login layui-nav forum-nav " id="login">
-                <a href="#">
-                    <li class="layui-nav-item"><a href="#" class="subLogin"><i class="layui-icon layui-icon-username" style="font-size: 16px;color: black"> </i>登陆</li></a></a>
-                <a href="#">
-                    <li class="layui-nav-item"><a href="#" id="subReg"><i class="layui-icon layui-icon-water" style="font-size: 16px;color: black"></i>注册</li></a></a>
-            </ul>
-            <!-- <div class="fly-column-right layui-hide-xs" style="top:15px;">
+           <div class="fly-column-right layui-hide-xs" style="top:15px;">
                 <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
 					<i class="layui-icon"></i>
 				</span>
-                <a href="/jie/add/" class="layui-btn">发表新帖</a>
-            </div> -->
+                <a href="/post/add" class="layui-btn">发表新帖</a>
+            </div>
 
         </div>
     </div>
@@ -58,26 +52,23 @@
                     <div class="fly-panel">
                         <div class="user-summary">
                             <div class="clearfix">
+                                <#if user??>
                                 <a href="/avatar">
-                                    <img class="avatar giant  pull-left" style="width: 94px;height: 94px;" src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png">
+                                    <img class="avatar giant  pull-left" style="width: 94px;height: 94px;" src="${user.avatar!'/img/ch1st.jpg'}">
                                 </a>
                                 <div class="u_nick">
                                     <h3>
-                                        <span>ch1st</span>
+                                        <span>${user.name}</span>
                                     </h3>
-                                    <span class="tips" style="margin-top: 15px;border-right: 1px solid #eee;padding: 0 5px">发帖 0</span>
-                                    <span class="tips" style="position: relative;left:80px;">回复 0</span>
+                                    <span class="tips" style="margin-top: 15px;border-right: 1px solid #eee;padding: 0 5px">于${user.regTime?substring(0,19)} 加入本社区</span>
                                 </div>
                                 <div class="user-basic" style="padding-left: 10px 0;">
-                                    <div class="info-line">
-                                        <img src="img/kungfu.png" width="20px" height="20px"><i style="position:relative;top:2px;">&nbsp;&nbsp;江湖中人</i>
-                                    </div>
                                     <hr>
                                     <div class="user-other">
-                                        <span>暂无个人简介</span>
-                                        <span style="float:right"><i class="layui-icon layui-icon-edit"> </i></span>
+                                        <span>${user.signature!"随便写些什么留下存在感"}</span>
                                     </div>
                                 </div>
+                                </#if>
                             </div>
                         </div>
                     </div>
@@ -89,189 +80,79 @@
                             </ol>
                         </div>
                         <br/>
-                        <div style="height:10px;background:rgba(242, 242, 242);position: relative;top:40px;"></div>
-                        <table class="layui-table" style="position:relative">
+                        <div style="height:10px;background-color: #eee;position: relative;top:40px;"></div>
+                        <table class="layui-table" style="position:relative" >
                             <tbody>
+                            <#if list??>
+                                <#list list as t>
                                 <tr>
                                     <td>
                                         <div class="reply-info">
-                                            <span class="r-nick">ch1st</span>
-                                            <span class="r-time">2017-02-24 07:59:56</span>
-                                            <span class="helptext"> · 回复了:</span>
+                                            <img class="r-avatar" src="${t.avatar!'/img/ch1st.jpg'}">
+                                            <span class="r-nick">${t.name}</span>
+                                            <span class="r-time">${t.updateTime}</span>
+                                            <span class="helptext"> · 发表了:</span>
                                         </div>
                                         <div class="r-topic">
-                                            <a class="topic-title" href="/t/1288#reply-6064">
-                                                    安全书籍合集（PDF版）</a>
+                                            <a class="topic-title" href="/t/${t.id}">
+                                                    ${t.title}</a>
                                         </div>
                                     </td>
                                 </tr>
-
+                            <#if t_index==9><#break></#if>
+                                </#list>
+                            <#else>
                                 <tr>
-                                    <td>
-                                        <div class="reply-info">
-                                            <span class="r-nick">ch1st</span>
-                                            <span class="r-time">2017-08-03 08:39:37</span>
-                                            <span class="helptext"> · 回复了:</span>
-                                        </div>
-                                        <div class="r-topic">
-                                            <a class="topic-title" href="/t/1073#reply-4088">
-                                                    补天沙龙南京站—Java代码审计PPT</a>
-                                        </div>
-                                    </td>
+                                    <td>暂无数据</td>
                                 </tr>
+                            </#if>
 
-                                <tr>
-                                    <td>
-                                        <div class="reply-info">
-                                            <span class="r-nick">ch1st</span>
-                                            <span class="r-time">2017-08-03 08:39:54</span>
-                                            <span class="helptext"> · 回复了:</span>
-                                        </div>
-                                        <div class="r-topic">
-                                            <a class="topic-title" href="/t/1072#reply-3793">
-                                                    补天沙龙南京站—IOT安全之道&amp;&amp;Web渗透测试之逻辑漏洞挖掘</a>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="reply-info">
-                                            <span class="r-nick">ch1st</span>
-                                            <span class="r-time ">2017-08-03 08:55:56</span>
-                                            <span class="helptext"> · 回复了:</span>
-                                        </div>
-                                        <div class="r-topic">
-                                            <a class="topic-title" href="/t/1084#reply-4454">
-                                                    美丽联合集团看雪沙龙PPT</a>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="reply-info">
-                                            <span class="r-nick">ch1st</span>
-                                            <span class="r-time ">2017-08-31 04:18:43</span>
-                                            <span class="helptext"> · 回复了:</span>
-                                        </div>
-
-                                        <div class="r-topic">
-                                            <a class="topic-title" href="/t/1124#reply-4949">
-                                                    最早的一本Php代码审计书籍</a>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </tbody>
+                    </tbody>
                         </table>
+                    <div id="page" style="position:relative;float:right"></div>
                     </div>
                 </div>
 
                 <div class="layui-col-md4" style="position:relative; left:10px;font-size:16px">
                     <div class="fly-panel info">
-                        <!-- <img src="img/ch1st.jpg" alt="作者名字" />
-                        <div class="fly-detail-Member Member">
-                            <a href="#" class="fly-link">
-                                <cite>ch1st</cite>
+                        <#if Session['member']?exists>
+                        <#if user??>
+                        <img src="${user.avatar!'/img/ch1st.jpg'}" alt="${user.name}" />
+                        <div class="fly-detail-user user">
+                            <a href="/user/info" class="fly-link">
+                                <cite>${user.name}</cite>
                             </a>
-                            <span>这个人很懒，什么都没写哦</span>
+                            <span>${user.signature!'这个人很懒，什么都没写哦'}</span>
                         </div>
-                        <span class="fly-function" style="font-size:16px">
+                        <span class="fly-function" style="font-size:15px">
+									<a href="/user/setting">
+										<i class="layui-icon layui-icon-set" title="设置"></i>
+										设置
+									</a>
 									<a href="#">
-										<i class="layui-icon layui-icon-set" title="设置"></i> 设置
-                                            </a>
-                                            <a href="#">
-                                                <i class="layui-icon layui-icon-notice" title="消息"></i> 消息
-                                            </a>
-                                            </span>
-                                            <br/>
-                                            <br/>
-                                            <div class="fly-panel-title fly-filter func">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td width="25%" align="center" height="12%">
-                                                                <a href="#">
-                                                                    <span class="bigger">100</span>
-                                                                    <div class="spe3"></div>
-                                                                    <span class="fade">主&nbsp;&nbsp;&nbsp;题</span>
-                                                                </a>
-                                                            </td>
-                                                            <td width="25%" align="center" style="border-left: 1px solid rgba(100, 100, 100, 0.4); border-right: 1px solid rgba(100, 100, 100, 0.4);">
-                                                                <a href="#">
-                                                                    <span class="bigger">20</span>
-                                                                    <div class="spe3"></div>
-                                                                    <span class="fade">收&nbsp;&nbsp;&nbsp;藏</span>
-                                                                </a>
-                                                            </td>
-                                                            <td width="50%" align="center">
-                                                                <a href="#">
-                                                                    <span class="bigger">2018-08-08 15:00:00</span>
-                                                                    <div class="spe3"></div>
-                                                                    <span class="fade">上次登陆</span>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div> -->
-                        <h3 class="fly-panel-title">
-                            <center>Young-OG社区</center>
-                        </h3>
-                        <h5 class="fly-panel-title">
-                            <center>一个关于分享和探索的地方</center>
-                        </h5>
-                        <div class="layui-row fly-panel-main" style="padding: 15px;">
-                            <center>
-                                <button class="layui-btn layui-btn-primary signin subLogin">现在登陆</button>
-                            </center>
-                        </div>
-                        <br/>
-
-                    </div>
+						     			<i class="layui-icon layui-icon-notice" title="消息"></i>
+										消息
+						     		</a>
+                                    <a href="/logout">
+                                        <i class="layui-icon layui-icon-note" title="注销"></i>
+                                        注销
+                                    </a>
+                         </span>
+                    </#if>
+                </#if>
+                </div>
                     <div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">
-                        <h3 class="fly-panel-title">更多好友</h3>
+                        <h3 class="fly-panel-title">回贴周榜</h3>
+                        <#if members??>
                         <dl>
+                            <#list members as m>
                             <dd>
-                                <a href="/u/6497232"><img src="http://cdn.layui.com/avatar/6497232.jpg?t=1523408456711" /><cite>岁月小偷</cite><i>172次回答</i></a>
+                                <a href="/u/${m.id}"><img src="${m.avatar!'/img/ch1st.jpg'}" /><cite>${m.name}</cite><i>${m.email}次回答</i></a>
                             </dd>
-                            <dd>
-                                <a href="/u/2430456"><img src="http://cdn.layui.com/avatar/2430456.jpg?t=1504089075922" /><cite>HiTerry</cite><i>58次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/20614440"><img src="http://thirdqq.qlogo.cn/qqapp/101235792/3D5E1075FF1BC2ED700A6B5B2B318722/100" /><cite>红烧鱼i</cite><i>49次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/12877872"><img src="http://cdn.layui.com/avatar/12877872.jpg?t=1527914693459" /><cite>HiAnt</cite><i>36次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/168"><img src="https://cdn.layui.com/avatar/168.jpg?t=1507143496817" /><cite>贤心</cite><i>35次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/8917272"><img src="https://q.qlogo.cn/qqapp/101235792/05A6FB93B4F9E35C9FD4AD5C998CCD74/100" /><cite>Xiny</cite><i>28次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/10553256"><img src="https://cdn.layui.com/avatar/10553256.jpg?t=1534582081414" /><cite>茉莉</cite><i>27次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/14226072"><img src="https://res.layui.com/images/fly/avatar/1.jpg" /><cite>Yoga</cite><i>22次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/10214232"><img src="https://cdn.layui.com/avatar/10214232.gif?t=1517219528796" /><cite>BUG开发工程师</cite><i>19次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/12107088"><img src="https://res.layui.com/images/fly/avatar/0.jpg" /><cite>dududu</cite><i>18次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/6339648"><img src="http://q.qlogo.cn/qqapp/101235792/9BD3B5C1CE44CA3BB28630504C4F8B1E/100" /><cite>圣贤愁</cite><i>18次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/13525008"><img src="https://res.layui.com/images/fly/avatar/7.jpg" /><cite>帅不过十秒</cite><i>16次回答</i></a>
-                            </dd>
-
+                        </#list>
                         </dl>
-                    </div>
+                    </#if>
+                </div>
                 </div>
             </div>
         </div>
@@ -291,11 +172,35 @@
             <a href="#" target="_blank">社区小黑板</a>
 
     </div>
-    <script src="layui/layui.js"></script>
+    <script src="/layui/layui.js"></script>
 
-    <script src="layui/lay/modules/form.js"></script>
-    <script src="layui/lay/modules/layer.js"></script>
-    <script src="js/index.js"></script>
+    <script src="/layui/lay/modules/layer.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/layui/lay/modules/laypage.js"></script>
+    <#if page??>
+    <script>
+        layui.use('laypage',function(){
+            var laypage=layui.laypage;
+            laypage.render({
+                elem:'page'
+                ,count:${page.count}
+                ,curr: function(){
+                    var page = location.search.match(/page=(\d+)/);
+                    return page ? page[1] : 1;
+                }()
+                ,hash:'page'
+                ,jump:function(obj,first){
+                    if(!first){
+                        location.href = '?page='+obj.curr;
+                    }
+                }
+                });
+            });
+
+
+
+    </script>
+    </#if>
 
 </body>
 

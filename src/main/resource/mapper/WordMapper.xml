@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.bbs.dao.WordDao">
+
+ 	<resultMap type="com.bbs.pojo.Word" id="WordMap">
+		<id column="id" property="id"/>
+		<result column="user" property="user"/>
+		<result column="replyContent" property="replyContent"/>
+		<result column="star" property="star"/>
+		<result column="date" property="date"/>
+		<result column="tId" property="tId"/>
+        <association property="member" javaType="com.bbs.pojo.Member">
+            <id column="userId" property="id"/>
+            <result column="name" property="name"/>
+            <result column="avatar" property="avatar"/>
+        </association>
+	</resultMap>
+
+
+    <select id="getCountWordByArticle" resultMap="WordMap">
+        SELECT
+            count( * ) as star
+        FROM
+            bbs_word
+        WHERE
+            tid = #{tid}
+    </select>
+    <insert id="addWord">
+        INSERT INTO bbs_word
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id!=''">id,</if>
+            <if test="user!=null and user!=''">user,</if>
+            replyContent,
+            <if test="star!=null and star!=''">star,</if>
+            <if test="date!=null and date!=''">date,</if>
+            <if test="tId!=null and tId!=''">tId,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id!=null and id!=''">#{id},</if>
+            <if test="user!=null and user!=''">#{user},</if>
+            #{replyContent},
+            <if test="star!=null and star!=''">#{star},</if>
+            <if test="date!=null and date!=''">#{date},</if>
+            <if test="tId!=null and tId!=''">#{tId},</if>
+        </trim>
+    </insert>
+
+    <select id="getWord" resultMap="WordMap">
+        SELECT
+            a.avatar,
+            a.NAME,
+            a.id as userId,
+            b.replyContent,
+            b.star,
+            b.date
+        FROM
+            bbs_member a
+            INNER JOIN bbs_word b ON a.id = b.USER
+        WHERE
+            b.tid = #{tid}
+        order by b.star desc
+    </select>
+
+</mapper>

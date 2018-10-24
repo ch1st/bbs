@@ -10,6 +10,24 @@ public class Article {
     private String updateTime;
     private Integer view;
     private Integer star;
+    private Member member;
+    private Type types;
+
+    public Type getTypes() {
+        return types;
+    }
+
+    public void setTypes(Type types) {
+        this.types = types;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 
     public String getId() {
         return id;
@@ -96,6 +114,8 @@ public class Article {
                 ", updateTime='" + updateTime + '\'' +
                 ", view=" + view +
                 ", star=" + star +
+                ", member=" + member +
+                ", types=" + types +
                 '}';
     }
 }

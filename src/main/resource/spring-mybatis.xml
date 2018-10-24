@@ -30,6 +30,7 @@
         <!-- 映射文件位置 -->
         <property name="mapperLocations" value="classpath*:mapper/*.xml"></property>
         <!-- 分页插件pageHelper -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
     </bean>
     <!-- 该bean调用SqlSession的getMapper函数 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

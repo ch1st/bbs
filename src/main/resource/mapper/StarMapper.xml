@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.bbs.dao.StarDao">
+
+ 	<resultMap type="com.bbs.pojo.Star" id="StarMap">
+		<id column="id" property="id"/>
+		<result column="userId" property="userId"/>
+        <result column="articleId" property="articleId"/>
+	</resultMap>
+
+
+
+    <select id="getStatus" resultMap="StarMap">
+        SELECT * FROM bbs_star_article where 1=1 and userId=#{userId} and articleId=#{articleId}
+    </select>
+
+    <insert id="addStar">
+        INSERT INTO bbs_star_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId!=null and userId!=''">userId,</if>
+            <if test="articleId!=null and articleId!=''">articleId,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId!=null and userId!=''">#{userId},</if>
+            <if test="articleId!=null and articleId!=''">#{articleId},</if>
+        </trim>
+    </insert>
+
+    <delete id="delStar">
+        DELETE FROM bbs_star_article WHERE id=#{id}
+    </delete>
+</mapper>

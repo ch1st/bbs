@@ -10,9 +10,9 @@ import java.util.List;
 @Service("TypeService")
 public class TypeService {
     @Autowired
-    private TypeDao articleDao;
+    private TypeDao typeDao;
 
     public List<Type> getTypes(){
-        return articleDao.getTypes();
+        return typeDao.getTypes();
     }
 }

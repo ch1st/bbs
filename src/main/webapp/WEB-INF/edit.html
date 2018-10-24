@@ -45,7 +45,6 @@
 
         </div>
     </div>
-
     <div class="layui-row layui-col-space15" style="margin-top:20px">
         <div class="layui-container">
             <div class="layui-row">
@@ -53,23 +52,40 @@
                     <div class="fly-panel detail-box">
                         <form action="#" method="POST" class="layui-form">
                             <div class="layui-form-item" style="width:100%;">
+                            <#if article??>
+                                <input type="text" placeholder="请输入标题" lay-verify="title" class="layui-input" name="title" required style="width:100%;" value="${article.title!''}">
+                                <input name="id" value="${article.articleId}" type="hidden">
+                                <#else>
                                 <input type="text" placeholder="请输入标题" lay-verify="title" class="layui-input" name="title" required style="width:100%;">
+                            </#if>
                             </div>
                             <div class="layui-form-item">
+                                <#if article??>
+                                <textarea id="editText" style="display:none" lay-verify="article_content" name="content">
+                                    ${article.content!''}
+                                </textarea>
+                                <#else>
                                 <textarea id="editText" style="display:none" lay-verify="article_content" name="content"></textarea>
+                            </#if>
                             </div>
                             <div class="layui-form-item" style="width: 50%">
 
                                 <select name="type" class="layui-select">
-                                    <option value="">选择分类(必选)</option>
+                                    <option value="-1">选择分类(必选)</option>
                                     <#if type??>
                                         <#list type as t>
-                                        <option value="${t.id}">${t.name}</option>
+                                            <#if article??>
+                                                <#if article.id==t.id>
+                                                    <option value="${t.id}" selected>${t.name}</option>
+                                                <#else>
+                                                    <option value="${t.id}" >${t.name}</option>
+                                                </#if>
+                                            <#else>
+                                                    <option value="${t.id}" >${t.name}</option>
+                                            </#if>
                                         </#list>
-                                    <#else>
-                                        <option vlaue="null">未获取到分类</option>
                                     </#if>
-                                </select>
+                    </select>
                             </div>
                             <div class="layui-form-item">
                                 <button type="button" lay-submit class="layui-btn layedit-context" style="width:30%;" data-type="content" lay-filter="post">提交</button>
@@ -77,17 +93,16 @@
                         </form>
                     </div>
                 </div>
-
                 <div class="layui-col-md4" style="position:relative; left:10px;font-size:16px">
                     <div class="fly-panel info">
-                        <img src="/img/ch1st.jpg" alt="作者名字" />
+                        <img src="${user.avatar!'/img/ch1st.jpg'}" alt="${user.name}" />
                         <div class="fly-detail-user user">
-                            <a href="#" class="fly-link">
-                                <cite>ch1st</cite>
+                            <a href="/user/info" class="fly-link">
+                                <cite>${user.name}</cite>
                             </a>
-                            <span>这个人很懒，什么都没写哦</span>
+                            <span>${user.signature!'这个人很懒，什么都没写哦'}</span>
                         </div>
-                        <span class="fly-function" style="font-size:16px">
+                        <span class="fly-function" style="font-size:15px">
 									<a href="/user/setting">
 										<i class="layui-icon layui-icon-set" title="设置"></i>
 										设置
@@ -95,21 +110,12 @@
 									<a href="#">
 						     			<i class="layui-icon layui-icon-notice" title="消息"></i>
 										消息
-                                     </a>
-                                     <a href="/logout">
-                                            <i class="layui-icon layui-icon-note" title="注销"></i>
-                                           注销
-                                     </a>
-                        </span>
-                        <table class="layui-table" lay-data="{url:'/demo/table/user/', page:true, id:'test'}" lay-filter="test">
-                            <thead>
-                            <tr>
-                                <th lay-data="{field:'topic', width:80}">主题</th>
-                                <th lay-data="{field:'reply', width:80}">回复</th>
-                                <th lay-data="{field:'time', width:80}">上次登陆</th>
-                            </tr>
-                            </thead>
-                        </table>
+						     		</a>
+                                    <a href="/logout">
+                                        <i class="layui-icon layui-icon-note" title="注销"></i>
+                                        注销
+                                    </a>
+                         </span>
 
 
                     </div>
@@ -180,13 +186,13 @@
             });
             form.on("submit(post)",function(data){
                 $.ajax({
-                   url:'doAdd'
+                   url:'/post/doAdd'
                    ,type:'post'
                    ,contentType:'application/json'
                    ,data:JSON.stringify(data.field)
                    ,success:function(result){
                        layer.msg(result.msg);
-                        window.parent.location.reload();
+                        setTimeout('window.parent.location.reload()',2000);
                     }
                 });
             });

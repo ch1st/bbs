@@ -18,7 +18,7 @@ $('.subLogin').click(function() {
         closeBtn: 1,
         offset: 'auto',
         area: ['400px', '400px'],
-        content: 'login.html',
+        content: '/login.html',
         scrolling: 'no'
 
     });
@@ -35,7 +35,7 @@ $('#subReg').click(function() {
         closeBtn: 1,
         offset: 'auto',
         area: ['400px', '400px'],
-        content: 'register.html',
+        content: '/register.html',
         scrolling: 'no'
 
     });
@@ -54,3 +54,14 @@ $('#code').click(function(){
         }
     });
 })
+
+//获取地址栏函数
+function getQueryVariable(variable){
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
+}

@@ -14,6 +14,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (member != null) {
             return true;
         } else {
+            System.out.println(member+"拦截器跳转～");
             request.getRequestDispatcher("/WEB-INF/403.html").forward(request,response);
             return false;
         }

@@ -33,7 +33,7 @@
 <body>
     <div class="forum-header">
         <div class="layui-container">
-            <a class="logo" href="#"><img src="./img/logo.png" alt=""></a>
+            <a class="logo" href="#"><img src="/img/logo.png" alt=""></a>
 
             <#if Session['member']?exists>
             <div class="fly-column-right layui-hide-xs" style="top:15px;">
@@ -63,340 +63,88 @@
                             <a>实时热点</a>
                             <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
                         </div>
+                        <#if top??>
+                        <#list top as t>
                         <ul class="fly-list">
                             <li>
-                                <a href="/u/168" class="fly-avatar"> <img src="https://xzfile.aliyuncs.com/media/upload/avatars/1658_9df93148d5b19b4c29.png" alt="贤心" /> </a>
-                                <h2> <a class="layui-badge">动态</a> <a href="/jie/33309/">layui 2.4.3 发布</a> </h2>
+                                <a href="/u/${t.userId}" class="fly-avatar"> <img src="${t.avatar!'/img/ch1st.jpg'}" alt="${t.username}" /> </a>
+                                <h2> <a class="layui-badge">热点</a> <a href="/t/${t.articleId}/">${t.title}</a> </h2>
                                 <div class="fly-list-info">
-                                    <a href="/u/168" link=""> <cite>贤心</cite> <i class="iconfont icon-renzheng" title="认证信息：layui 作者"></i> </a>
-                                    <span>20小时前</span>
-                                    <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50</span>
-                                    <span class="fly-list-nums"> <i class="iconfont icon-pinglun1" title="回答"></i> 35 </span>
-                                </div>
-                                <div class="fly-list-badge">
-                                </div>
-                            </li>
-                            <li>
-                                <a href="/u/12559680" class="fly-avatar"> <img src="https://xzfile.aliyuncs.com/media/upload/avatars/1658_9df93148d5b19b4c29.png" alt="sakuya88" /> </a>
-                                <h2> <a class="layui-badge">分享</a> <a href="/jie/33208/">TableSelect 下拉表格数据选择器</a> </h2>
-                                <div class="fly-list-info">
-                                    <a href="/u/12559680" link=""> <cite>sakuya88</cite> </a>
-                                    <span>20小时前</span>
-                                    <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50</span>
-                                    <span class="fly-list-nums"> <i class="iconfont icon-pinglun1" title="回答"></i> 20 </span>
-                                </div>
-                                <div class="fly-list-badge">
-                                    <span class="layui-badge layui-bg-red">精帖</span>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="/u/168" class="fly-avatar"> <img src="https://xzfile.aliyuncs.com/media/upload/avatars/1658_9df93148d5b19b4c29.png" alt="贤心" /> </a>
-                                <h2> <a class="layui-badge">动态</a> <a href="/jie/32943/">layui 第三方组件平台正式上线</a> </h2>
-                                <div class="fly-list-info">
-                                    <a href="/u/168" link=""> <cite>贤心</cite> <i class="iconfont icon-renzheng" title="认证信息：layui 作者"></i> </a>
-                                    <span>5天前</span>
-                                    <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i> 20</span>
-                                    <span class="fly-list-nums"> <i class="iconfont icon-pinglun1" title="回答"></i> 17 </span>
-                                </div>
-                                <div class="fly-list-badge">
-                                </div>
-                            </li>
-                            <li>
-                                <a href="/u/168" class="fly-avatar"> <img src="https://xzfile.aliyuncs.com/media/upload/avatars/1658_9df93148d5b19b4c29.png" alt="贤心" /> </a>
-                                <h2> <a class="layui-badge">动态</a> <a href="/jie/32905/">layui 2.4.0 发布，一个小小新起点</a> </h2>
-                                <div class="fly-list-info">
-                                    <a href="/u/168" link=""> <cite>贤心</cite> <i class="iconfont icon-renzheng" title="认证信息：layui 作者"></i> </a>
-                                    <span>6天前</span>
-                                    <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i> 20</span>
-                                    <span class="fly-list-nums"> <i class="iconfont icon-pinglun1" title="回答"></i> 87 </span>
+                                    <a href="/u/${t.userId}" link=""> <cite>${t.username}</cite> <i class="iconfont icon-renzheng" title="会员"></i> </a>
+                                    <span>${t.updateTime}</span>
+                                    <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>${t.star}</span>
+                                    <span class="fly-list-nums"> <i class="iconfont icon-pinglun1" title="回答"></i> ${t.words} </span>
                                 </div>
                                 <div class="fly-list-badge">
                                 </div>
                             </li>
                         </ul>
+                        </#list>
+                        </#if>
                     </div>
+                    <#if type??>
                     <div class="fly-panel">
                         <div class="box">
                             <div class="inner">
-                                <a href="#" class="tab_current">全部</a>
-                                <a href="#" class="tab">技术</a>
-                                <a href="#" class="tab">技术</a>
-                                <a href="#" class="tab">技术</a>
-                                <a href="#" class="tab">技术</a>
-                                <a href="#" class="tab">技术</a>
+                                <a href="/" class="tab_current" id="all">全部</a>
+                                <#list type as y>
+                                    <#if tab??>
+                                        <#if tab==y.id>
+                                            <a href="/index?page=1&tab=${y.id}" class="tab_current">${y.name}</a>
+                                        <#else>
+                                            <#if tab=="0">
+                                            <#else>
+                                                <script>
+                                                    $("#all").prop("class","tab");
+                                                </script>
+                                            </#if>
+                                            <a href="/index?page=1&tab=${y.id}" class="tab">${y.name}</a>
+                                        </#if>
+                                    </#if>
+                                </#list>
                             </div>
                         </div>
-                        <div class="SendaryTabs" id="cell">
-                            <a href="#" class="subTab">python</a>
-                            <a href="#" class="subTab">PHP</a>
-                            <a href="#" class="subTab">Java</a>
-                            <a href="#" class="subTab">Go</a>
-                            <a href="#" class="subTab">数据库</a>
-                        </div>
+                    </#if>
+                    <#if index??>
                         <ul class="fly-list">
+                            <#list index as i>
                             <li>
                                 <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
+                                    <img src="${i.avatar!'/img/ch1st.jpg'}" alt="${i.username}" />
                                 </a>
                                 <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
+                                    <a href="" class="layui-badge">${i.typeName}</a>
+                                    <a href="/t/${i.articleId}">
+					 						 	${i.title}
 					 						</a>
                                 </h2>
                                 <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
+                                    <a href="/u/${i.userId}" link="">
+                                        <cite>${i.username}</cite>
                                     </a>
-                                    <span>12分钟前</span>
+                                    <span>${i.updateTime}</span>
                                     <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
+								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>${i.star}
 								         	</span>
                                     <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
+									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>${i.words}
+									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>${i.view}
 								         	</span>
 
                                 </div>
                                 <div class="fly-list-badge"></div>
                             </li>
-                            <li>
-                                <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
-                                </a>
-                                <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
-					 						</a>
-                                </h2>
-                                <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
-                                    </a>
-                                    <span>12分钟前</span>
-                                    <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
-								         	</span>
-                                    <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
-								         	</span>
-
-                                </div>
-                                <div class="fly-list-badge"></div>
-                            </li>
-                            <li>
-                                <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
-                                </a>
-                                <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
-					 						</a>
-                                </h2>
-                                <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
-                                    </a>
-                                    <span>12分钟前</span>
-                                    <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
-								         	</span>
-                                    <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
-								         	</span>
-
-                                </div>
-                                <div class="fly-list-badge"></div>
-                            </li>
-                            <li>
-                                <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
-                                </a>
-                                <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
-					 						</a>
-                                </h2>
-                                <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
-                                    </a>
-                                    <span>12分钟前</span>
-                                    <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
-								         	</span>
-                                    <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
-								         	</span>
-
-                                </div>
-                                <div class="fly-list-badge"></div>
-                            </li>
-                            <li>
-                                <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
-                                </a>
-                                <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
-					 						</a>
-                                </h2>
-                                <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
-                                    </a>
-                                    <span>12分钟前</span>
-                                    <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
-								         	</span>
-                                    <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
-								         	</span>
-
-                                </div>
-                                <div class="fly-list-badge"></div>
-                            </li>
-                            <li>
-                                <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
-                                </a>
-                                <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
-					 						</a>
-                                </h2>
-                                <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
-                                    </a>
-                                    <span>12分钟前</span>
-                                    <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
-								         	</span>
-                                    <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
-								         	</span>
-
-                                </div>
-                                <div class="fly-list-badge"></div>
-                            </li>
-                            <li>
-                                <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
-                                </a>
-                                <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
-					 						</a>
-                                </h2>
-                                <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
-                                    </a>
-                                    <span>12分钟前</span>
-                                    <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
-								         	</span>
-                                    <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
-								         	</span>
-
-                                </div>
-                                <div class="fly-list-badge"></div>
-                            </li>
-                            <li>
-                                <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
-                                </a>
-                                <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
-					 						</a>
-                                </h2>
-                                <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
-                                    </a>
-                                    <span>12分钟前</span>
-                                    <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
-								         	</span>
-                                    <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
-								         	</span>
-
-                                </div>
-                                <div class="fly-list-badge"></div>
-                            </li>
-                            <li>
-                                <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
-                                </a>
-                                <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
-					 						</a>
-                                </h2>
-                                <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
-                                    </a>
-                                    <span>12分钟前</span>
-                                    <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
-								         	</span>
-                                    <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
-								         	</span>
-
-                                </div>
-                                <div class="fly-list-badge"></div>
-                            </li>
-                            <li>
-                                <a href="" class="fly-avatar">
-                                    <img src="https://xzfile.aliyuncs.com//media/upload/avatars/default_avatar.png" alt="姓名" />
-                                </a>
-                                <h2>
-                                    <a href="" class="layui-badge">板块名称</a>
-                                    <a href="https://xz.aliyun.com/t/2598">
-					 						 	最新Trickbot变种技术分析
-					 						</a>
-                                </h2>
-                                <div class="fly-list-info">
-                                    <a href="https://xz.aliyun.com/u/4221" link="">
-                                        <cite>angel010</cite>
-                                    </a>
-                                    <span>12分钟前</span>
-                                    <span class="layui-hide-xs">
-								         		<i class="layui-icon layui-icon-praise" style="position:relative;top:2px;"></i>50
-								         	</span>
-                                    <span class="fly-list-nums" style="">
-									         	<i class="iconfont icon-pinglun1" title="回答" style="position:relative;top:1px;"></i>55
-									         	 <i class="layui-icon layui-icon-face-surprised" title="人气" style="position:relative;top:1px;"></i>15
-								         	</span>
-
-                                </div>
-                                <div class="fly-list-badge"></div>
-                            </li>
+                            </#list>
                         </ul>
+                        </#if>
                         <div style="text-align: center">
-                            <div class="laypage-main"> <a href="/column/all/page/2/" class="laypage-next">更多求解</a> </div>
+                            <#if count??>
+                                <#if count.pageNum!="1">
+                                <div id="page"></div>
+                                <#else>
+                                <div class="laypage-main"> <a href="#" class="laypage-next" id="next">更多求解</a> </div>
+                                </#if>
+                            </#if>
                         </div>
                     </div>
                 </div>
@@ -404,12 +152,13 @@
                 <div class="layui-col-md4" style="position:relative; left:10px;font-size:16px">
                     <div class="fly-panel info">
                         <#if Session['member']?exists>
-                        <img src="img/ch1st.jpg" alt="作者名字" />
+                        <#if user??>
+                        <img src="${user.avatar!'/img/ch1st.jpg'}" alt="${user.name}" />
                         <div class="fly-detail-user user">
-                            <a href="#" class="fly-link">
-                                <cite>ch1st</cite>
+                            <a href="/user/info" class="fly-link">
+                                <cite>${user.name}</cite>
                             </a>
-                            <span>这个人很懒，什么都没写哦</span>
+                            <span>${user.signature!'这个人很懒，什么都没写哦'}</span>
                         </div>
                         <span class="fly-function" style="font-size:15px">
 									<a href="/user/setting">
@@ -424,19 +173,11 @@
                                         <i class="layui-icon layui-icon-note" title="注销"></i>
                                         注销
                                     </a>
-                        </span>
-                        <table class="layui-table" lay-data="{url:'/demo/table/user/', page:true, id:'test'}" lay-filter="test">
-                            <thead>
-                            <tr>
-                                <th lay-data="{field:'topic', width:80}">主题</th>
-                                <th lay-data="{field:'reply', width:80}">回复</th>
-                                <th lay-data="{field:'time', width:80}">上次登陆</th>
-                            </tr>
-                            </thead>
-                        </table>
+                         </span>
+                        </#if>
                         <#else>
                         <h3 class="fly-panel-title">
-                            <center>Young-OG社区</center>
+                            <center>Fly社区</center>
                         </h3>
                         <h5 class="fly-panel-title">
                             <center>一个关于分享和探索的地方</center>
@@ -451,113 +192,31 @@
                     </div>
                     <div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">
                         <h3 class="fly-panel-title">回贴周榜</h3>
+                        <#if members??>
                         <dl>
+                            <#list members as m>
                             <dd>
-                                <a href="/u/6497232"><img src="http://cdn.layui.com/avatar/6497232.jpg?t=1523408456711" /><cite>岁月小偷</cite><i>172次回答</i></a>
+                                <a href="/u/${m.id}"><img src="${m.avatar!'/img/ch1st.jpg'}" /><cite>${m.name}</cite><i>${m.email}次回答</i></a>
                             </dd>
-                            <dd>
-                                <a href="/u/2430456"><img src="http://cdn.layui.com/avatar/2430456.jpg?t=1504089075922" /><cite>HiTerry</cite><i>58次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/20614440"><img src="http://thirdqq.qlogo.cn/qqapp/101235792/3D5E1075FF1BC2ED700A6B5B2B318722/100" /><cite>红烧鱼i</cite><i>49次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/12877872"><img src="http://cdn.layui.com/avatar/12877872.jpg?t=1527914693459" /><cite>HiAnt</cite><i>36次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/168"><img src="https://cdn.layui.com/avatar/168.jpg?t=1507143496817" /><cite>贤心</cite><i>35次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/8917272"><img src="https://q.qlogo.cn/qqapp/101235792/05A6FB93B4F9E35C9FD4AD5C998CCD74/100" /><cite>Xiny</cite><i>28次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/10553256"><img src="https://cdn.layui.com/avatar/10553256.jpg?t=1534582081414" /><cite>茉莉</cite><i>27次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/14226072"><img src="https://res.layui.com/images/fly/avatar/1.jpg" /><cite>Yoga</cite><i>22次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/10214232"><img src="https://cdn.layui.com/avatar/10214232.gif?t=1517219528796" /><cite>BUG开发工程师</cite><i>19次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/12107088"><img src="https://res.layui.com/images/fly/avatar/0.jpg" /><cite>dududu</cite><i>18次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/6339648"><img src="http://q.qlogo.cn/qqapp/101235792/9BD3B5C1CE44CA3BB28630504C4F8B1E/100" /><cite>圣贤愁</cite><i>18次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/13525008"><img src="https://res.layui.com/images/fly/avatar/7.jpg" /><cite>帅不过十秒</cite><i>16次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/16455264"><img src="https://res.layui.com/images/fly/avatar/9.jpg" /><cite>红尘漂泊的心</cite><i>12次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/18764256"><img src="https://res.layui.com/images/fly/avatar/6.jpg" /><cite>聆听夏日的洁语</cite><i>11次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/17493840"><img src="http://cdn.layui.com/avatar/17493840.jpg?t=1528343602808" /><cite>会飞的牛牛</cite><i>11次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/21883848"><img src="http://thirdqq.qlogo.cn/qqapp/101235792/51FDFA09A7CC72B197543685D625D8B2/100" /><cite>楠萧子乔木</cite><i>11次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/18066216"><img src="https://res.layui.com/images/fly/avatar/4.jpg" /><cite>pcode</cite><i>10次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/22641192"><img src="https://res.layui.com/images/fly/avatar/5.jpg" /><cite>小马甲小马甲</cite><i>10次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/3162432"><img src="https://res.layui.com/images/fly/avatar/2.jpg" /><cite>月磊</cite><i>10次回答</i></a>
-                            </dd>
-                            <dd>
-                                <a href="/u/7490112"><img src="http://q.qlogo.cn/qqapp/101235792/464623E2F7EC313348B34E50DC2C43DD/100" /><cite>小青年a</cite><i>10次回答</i></a>
-                            </dd>
+                            </#list>
                         </dl>
+                        </#if>
                     </div>
-                    <div class="fly-panel  widget_post_thumb layui-hide-xs">
-                        <h3 class="fly-panel-title">热门阅读</h3>
-                        <ul>
-                            <li class="item">
-                                <div class="item-content">
-                                    <p class="item-title"><a href="#">【漏洞预警】Oracle WebLogic wls-wsat RCE CVE-2017-10271 & CVE-2017-3506</a></p>
+                        <div class="fly-panel  widget_post_thumb layui-hide-xs">
+                            <h3 class="fly-panel-title">热门阅读</h3>
+                            <#if viewArticle??>
+                            <#list viewArticle as v>
+                            <table class="layui-table">
+                                <tbody>
+                                <div>
+                                    <th style="float:left;text-align:left;width:92%;border:none;" class="layui-table-body"><a href="/t/${v.id}">${v.title}</a></th>
                                 </div>
-                            </li>
-                            <li class="item">
-                                <div class="item-content">
-                                    <p class="item-title"><a href="#">【漏洞预警】Oracle WebLogic wls-wsat RCE CVE-2017-10271 & CVE-2017-3506</a></p>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="item-content">
-                                    <p class="item-title"><a href="#">【漏洞预警】Oracle WebLogic wls-wsat RCE CVE-2017-10271 & CVE-2017-3506</a></p>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="item-content">
-                                    <p class="item-title"><a href="#">【漏洞预警】Oracle WebLogic wls-wsat RCE CVE-2017-10271 & CVE-2017-3506</a></p>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="item-content">
-                                    <p class="item-title"><a href="#">【漏洞预警】Oracle WebLogic wls-wsat RCE CVE-2017-10271 & CVE-2017-3506</a></p>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="item-content">
-                                    <p class="item-title"><a href="#">【漏洞预警】Oracle WebLogic wls-wsat RCE CVE-2017-10271 & CVE-2017-3506</a></p>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="item-content">
-                                    <p class="item-title"><a href="#">【漏洞预警】Oracle WebLogic wls-wsat RCE CVE-2017-10271 & CVE-2017-3506</a></p>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="item-content">
-                                    <p class="item-title"><a href="#">【漏洞预警】Oracle WebLogic wls-wsat RCE CVE-2017-10271 & CVE-2017-3506</a></p>
-                                </div>
-                            </li>
-                        </ul>
+                                </tbody>
+                            </table>
+                                <#if v_index==9><#break></#if>
+                            </#list>
+                            </#if>
+
                     </div>
                 </div>
             </div>
@@ -578,12 +237,44 @@
             <a href="#" target="_blank">社区小黑板</a>
 
     </div>
-    <script src="layui/layui.js"></script>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/lay/modules/table.js"></script>
+    <script src="/layui/lay/modules/form.js"></script>
+    <script src="/layui/lay/modules/layer.js"></script>
+    <script src="/js/index.js"></script>
+    <#if count??>
+    <script>
+        var tab=getQueryVariable('tab');
+        if(tab!=false){
+            $("#next").attr("href","/?page=2&tab="+tab);
+        }else{
+            $("#next").attr("href","/?page=2")
+        }
 
-    <script src="layui/lay/modules/form.js"></script>
-    <script src="layui/lay/modules/layer.js"></script>
-    <script src="js/index.js"></script>
 
+        layui.use(['laypage'],function(){
+           var laypage=layui.laypage;
+           laypage.render({
+              elem:'page'
+              ,count:${count.count}
+               ,curr: function(){
+                   var page = location.search.match(/page=(\d+)/);
+                   return page ? page[1] : 1;
+               }()
+               ,hash:'page'
+               ,jump:function(obj,first){
+                   if(!first){
+                       if(tab!=false){
+                           location.href = '?page='+obj.curr+"&tab="+tab;
+                       }else{
+                           location.href = '?page='+obj.curr;
+                       }
+                   }
+               }
+           });
+        });
+    </script>
+    </#if>
 </body>
 
 </html>
