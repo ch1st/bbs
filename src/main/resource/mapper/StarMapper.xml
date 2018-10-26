@@ -7,6 +7,15 @@
 		<id column="id" property="id"/>
 		<result column="userId" property="userId"/>
         <result column="articleId" property="articleId"/>
+        <result column="starTime" property="starTime"/>
+        <association property="article" javaType="com.bbs.pojo.Article">
+            <result column="title" property="title"/>
+        </association>
+        <association property="member" javaType="com.bbs.pojo.Member">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="avatar" property="avatar"/>
+        </association>
 	</resultMap>
 
 
@@ -20,14 +29,33 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId!=null and userId!=''">userId,</if>
             <if test="articleId!=null and articleId!=''">articleId,</if>
+            <if test="starTime!=null and starTime!=''">starTime,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId!=null and userId!=''">#{userId},</if>
             <if test="articleId!=null and articleId!=''">#{articleId},</if>
+            <if test="starTime!=null and starTime!=''">#{starTime},</if>
         </trim>
     </insert>
 
     <delete id="delStar">
         DELETE FROM bbs_star_article WHERE id=#{id}
     </delete>
+
+    <select id="getStarByUserId" resultMap="StarMap">
+    SELECT
+        a.starTime,
+        a.articleId,
+        b.title,
+        c.NAME,
+        c.avatar
+    FROM
+        bbs_star_article a
+        JOIN bbs_article b ON a.articleId = b.id
+        JOIN bbs_member c ON b.USER = c.id
+    WHERE
+        a.userId=#{userId}
+    ORDER BY
+        starTime
+    </select>
 </mapper>

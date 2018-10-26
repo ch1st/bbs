@@ -8,6 +8,15 @@ public class Word {
     private String date;
     private String tId;
     private Member member;
+    private Article article;
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
 
     public Member getMember() {
         return member;
@@ -77,6 +86,7 @@ public class Word {
                 ", date='" + date + '\'' +
                 ", tId='" + tId + '\'' +
                 ", member=" + member +
+                ", article=" + article +
                 '}';
     }
 }

@@ -101,19 +101,18 @@
                         <#if word??>
                             <#list word as w>
                         <ul class="jieda" id="jieda">
-                            <li data-id="134520">
-                                <a name="item-1536299335086"></a>
+                            <li >
                                 <div class="detail-about detail-about-reply">
                                     <a class="fly-avatar" href="/u/${w.userId}"> <img src="${w.avatar!'/img/ch1st.jpg'}" alt="${w.name}"> </a>
                                     <div class="fly-detail-user">
                                         <a href="/u/${w.userId}/" class="fly-link"> <cite>${w.name}</cite> <i class="iconfont icon-renzheng" title="会员"></i> <i class="layui-badge fly-badge-vip">会员</i> </a>
                                     </div>
-                                    <div class="detail-hits"> <span>${w.date}</span> </div>
+                                    <div class="detail-hits"> <span>${w.signature!"这个人很懒,什么都没有留下"}</span> </div>
                                 </div>
                                 <br/>
-
                                 ${w.replyContent}
-                                <div class="jieda-reply r-star"> <span class="jieda-zan " type="zan"> <i class="iconfont icon-zan"></i> <em>3</em> </span> <span type="reply"> <i class="iconfont icon-svgmoban53"></i> 回复 </span> </div>
+                                <br>
+                                <div class="jieda-reply"> <span class="jieda-zan " type="zan"> <i class="layui-icon layui-icon-edit"></i><em>于${w.date}回复</em> </span>  </div>
                             </li>
                         </ul>
                         </a>
@@ -168,14 +167,13 @@
                    "userId":"${article.userId}",
                    "articleId":"${article.id}"
                })
+               ,dataType:"json"
                ,success:function(result){
-                   if(result.match("html")){
-                        layer.msg("未登录");
-                       setTimeout('window.parent.location.reload()',1000);
-                   }else{
-                       layer.msg(result.msg,{time:2000});
+                        layer.msg(result.msg,{time:2000});
                        setTimeout('window.parent.location.reload()',1500);
-                   }
+               }
+               ,error:function(a){
+                   layer.msg("请登录后在进行操作");
                }
            });
         });

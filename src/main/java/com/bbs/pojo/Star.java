@@ -4,7 +4,33 @@ public class Star {
     private Integer id;
     private String userId;
     private String articleId;
+    private String starTime;
+    private Article article;
+    private Member member;
 
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public String getStarTime() {
+        return starTime;
+    }
+
+    public void setStarTime(String starTime) {
+        this.starTime = starTime;
+    }
     public Integer getId() {
         return id;
     }
@@ -35,6 +61,9 @@ public class Star {
                 "id=" + id +
                 ", userId='" + userId + '\'' +
                 ", articleId='" + articleId + '\'' +
+                ", starTime='" + starTime + '\'' +
+                ", article=" + article +
+                ", member=" + member +
                 '}';
     }
 }

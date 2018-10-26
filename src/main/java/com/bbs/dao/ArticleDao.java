@@ -77,4 +77,16 @@ public interface ArticleDao {
      * @return
      */
     Integer updateArticle(Article article);
+
+    /**
+     * 根据用户查询所有文章
+     * @param userId
+     * @return
+     */
+    List<Article> getArticleByUserId(@Param("userId")String userId);
+
+    /**
+     * 更改文章状态
+     */
+    public Integer updateArticleStatusByUserId(@Param("status")Integer status,@Param("id")String id,@Param("userId")String userId);
 }

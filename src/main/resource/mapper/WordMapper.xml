@@ -14,6 +14,11 @@
             <id column="userId" property="id"/>
             <result column="name" property="name"/>
             <result column="avatar" property="avatar"/>
+            <result column="signature" property="signature"/>
+        </association>
+        <association property="article" javaType="com.bbs.pojo.Article">
+            <id column="id" property="id"/>
+            <result column="title" property="title"/>
         </association>
 	</resultMap>
 
@@ -50,6 +55,7 @@
         SELECT
             a.avatar,
             a.NAME,
+            a.signature,
             a.id as userId,
             b.replyContent,
             b.star,
@@ -59,7 +65,8 @@
             INNER JOIN bbs_word b ON a.id = b.USER
         WHERE
             b.tid = #{tid}
-        order by b.star desc
+        order by b.date desc
     </select>
+
 
 </mapper>

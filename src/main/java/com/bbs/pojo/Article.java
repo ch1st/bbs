@@ -10,8 +10,18 @@ public class Article {
     private String updateTime;
     private Integer view;
     private Integer star;
+    private Integer status;
     private Member member;
     private Type types;
+
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Type getTypes() {
         return types;
@@ -114,6 +124,7 @@ public class Article {
                 ", updateTime='" + updateTime + '\'' +
                 ", view=" + view +
                 ", star=" + star +
+                ", status=" + status +
                 ", member=" + member +
                 ", types=" + types +
                 '}';

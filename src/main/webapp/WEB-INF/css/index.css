@@ -419,7 +419,7 @@ ul {
     text-overflow:ellipsis;
     white-space:nowrap;
     overflow:hidden;
-    width:400px;
+    width:500px;
     text-align:left;
 }
 .navs li a:hover {
@@ -429,4 +429,20 @@ ul {
 
 .layui-this a {
     color: white !important;
+}
+.r-reply{
+    float:left;
+    position:relative;
+    left:20px;
+    font-size:14px;
+    font-weight: bold;
+}
+
+.r-reply a{
+    display:block;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+    overflow: hidden;
+    text-align:left;
+    width:300px;
 }

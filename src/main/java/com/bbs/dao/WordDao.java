@@ -27,4 +27,11 @@ public interface WordDao {
      * @return
      */
     Word getCountWordByArticle(@Param("tid") String tid);
+
+    /**
+     * 个人主页回复列表
+     * @param userId
+     * @return
+     */
+    List<Word> getReplyByUserId(@Param("userId") String userId);
 }

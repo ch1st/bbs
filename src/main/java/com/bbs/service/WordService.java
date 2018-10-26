@@ -4,13 +4,12 @@ import com.bbs.dao.WordDao;
 import com.bbs.pojo.Word;
 import com.bbs.utils.GetTime;
 import com.bbs.utils.GetUUID;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("WordService")
 public class WordService {
@@ -48,6 +47,11 @@ public class WordService {
         return wordDao.getCountWordByArticle(tid);
     }
 
+    /**
+     * 获取回复列表
+     * @param id
+     * @return
+     */
     public List<Map<String, String>>  Words(String id){
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         List<Word> getWord = wordDao.getWord(id);
@@ -60,8 +64,11 @@ public class WordService {
             word.put("date", w.getDate().substring(0, w.getDate().length() - 2));
             word.put("name", w.getMember().getName());
             word.put("avatar", w.getMember().getAvatar());
+            word.put("signature",w.getMember().getSignature());
             list.add(word);
         }
         return list;
     }
+
+
 }

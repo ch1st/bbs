@@ -33,6 +33,8 @@
     <div class="forum-header">
         <div class="layui-container">
             <a class="logo" href="/index"><img src="/img/logo.png" alt=""></a>
+
+
             <#if Session['member']?exists>
             <div class="fly-column-right layui-hide-xs" style="top:15px;">
                 <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
@@ -86,10 +88,10 @@
                                 <#if tab??>
                                     <#if tab=="1">
                                     <li style="display:inline"><a href="?page=1&tab=1" class="active">Ta的主题</a></li>
-                                    <li style="display:inline"><a href="?page=1&tab=2">Ta的点赞</a></li>
+                                    <li style="display:inline"><a href="?page=1&tab=2">Ta的回复</a></li>
                                     <#else>
                                     <li style="display:inline"><a href="?page=1&tab=1" >Ta的主题</a></li>
-                                    <li style="display:inline"><a href="?page=1&tab=2" class="active">Ta的点赞</a></li>
+                                    <li style="display:inline"><a href="?page=1&tab=2" class="active">Ta的回复</a></li>
                                     </#if>
                                 </#if>
                             </ol>
@@ -110,7 +112,7 @@
                                             <span class="helptext"> · 点赞了:</span>
                                         </div>
                                         <div class="r-topic">
-                                            <a class="topic-title" href="/t/${t.id}">
+                                            <a class="topic-title" href="/t/${t.id}#comment">
                                                 ${t.title}</a>
                                         </div>
                                     </td>
@@ -145,33 +147,6 @@
                 </div>
 
                 <div class="layui-col-md4" style="position:relative; left:10px;font-size:16px">
-                    <div class="fly-panel info">
-                        <#if Session['member']?exists>
-                        <#if user??>
-                        <img src="${user.avatar!'/img/ch1st.jpg'}" alt="${user.name}" />
-                        <div class="fly-detail-user user">
-                            <a href="/user/info" class="fly-link">
-                                <cite>${user.name}</cite>
-                            </a>
-                            <span>${user.signature!'这个人很懒，什么都没写哦'}</span>
-                        </div>
-                        <span class="fly-function" style="font-size:15px">
-									<a href="/user/setting">
-										<i class="layui-icon layui-icon-set" title="设置"></i>
-										设置
-									</a>
-									<a href="#">
-						     			<i class="layui-icon layui-icon-notice" title="消息"></i>
-										消息
-						     		</a>
-                                    <a href="/logout">
-                                        <i class="layui-icon layui-icon-note" title="注销"></i>
-                                        注销
-                                    </a>
-                         </span>
-                    </#if>
-                </#if>
-                </div>
                     <div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">
                         <h3 class="fly-panel-title">回贴周榜</h3>
                         <#if members??>

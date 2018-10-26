@@ -20,25 +20,38 @@
     <meta name="format-detection" content="address=no">
     <!-- 禁止浏览器自动将地址转换 -->
     <meta name="title" content="">
-    <link rel="stylesheet" href="layui/css/layui.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/font_24081_dddajmj0coc4n29.css">
-    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/font_24081_dddajmj0coc4n29.css">
+    <link rel="stylesheet" href="/layui/css/modules/layer/default/layer.css">
+    <link href="/css/bootstrap-table.css" rel="stylesheet">
 
+    <style>
+        .layui-form-switch{
+            margin-top:0px !important;
+        }
+        #title{
+            width: 555px !important;
+            display:block;
+            text-overflow: ellipsis;
+            white-space:nowrap;
+            overflow: hidden;
+            text-align:left;
+        }
+    </style>
 </head>
 
 <body>
     <div class="forum-header">
         <div class="layui-container">
-            <a class="logo" href="#"><img src="./img/logo.png" alt=""></a>
+            <a class="logo" href="/index"><img src="/img/logo.png" alt=""></a>
 
             <div class="fly-column-right layui-hide-xs" style="top:15px;">
                 <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
 					<i class="layui-icon"></i>
                 </span>
-                <a href="/jie/add/" class="layui-btn">发表新帖</a>
+                <a href="/post/add" class="layui-btn">发表新帖</a>
 
             </div>
 
@@ -49,16 +62,16 @@
         <div class="layui-container fly-marginTop fly-user-main">
             <ul class="layui-nav layui-nav-tree layui-inline navs" lay-filter="user" style="background:white;">
                 <li class="layui-nav-item">
-                    <a href="/userinfo.html"> <i class="layui-icon"></i> 我的主页 </a>
+                    <a href="/user/info"> <i class="layui-icon"></i> 我的主页 </a>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="/userSetting.html"> <i class="layui-icon"></i> 基本设置 </a>
+                    <a href="/user/setting"> <i class="layui-icon"></i> 基本设置 </a>
                 </li>
                 <li class="layui-nav-item layui-this">
-                    <a href="/userTopic.html"> <i class="iconfont icon-tiezi"></i> 我的帖子 </a>
+                    <a href="/user/topic"> <i class="iconfont icon-tiezi"></i> 我的帖子 </a>
                 </li>
                 <li class="layui-nav-item ">
-                    <a href="/message.html"> <i class="layui-icon"></i> 我的消息 </a>
+                    <a href="/user/message"> <i class="layui-icon"></i> 我的消息 </a>
                 </li>
                 <span class="layui-nav-bar" style="top: 212.5px; height: 0px; opacity: 0;"></span>
             </ul>
@@ -67,7 +80,44 @@
             </div>
             <div class="site-mobile-shade"></div>
             <div class="fly-panel fly-panel-user" pad20="">
-                <table id="topics" lay-filter="test"></table>
+            <div style="position:relative;top:40px;">
+                <div class="layui-form">
+                    <table data-toggle="table"  style="margin-top:0% !important;">
+                        <thead>
+                            <tr>
+                                <th>标题</th>
+                                <th>更新时间</th>
+                                <th>状态</th>
+                                <th>分类</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <#if list??>
+                                <#list list as l>
+                                <tr>
+                                    <input name="" type="hidden" value="${l.id}"/>
+                                    <td id="title"><a id="articleId" href="/t/${l.id}" >${l.title}</a></td>
+                                    <td>${l.updateTime}</td>
+                                    <td>
+                                        <#if l.status=="0">
+                                        <input  type="checkbox" name="status" value="${l.id}" checked lay-skin="switch" lay-text="发布|草稿" lay-filter="test" >
+                                        <#else>
+                                        <input  type="checkbox" name="status" value="${l.id}"  lay-skin="switch" lay-text="发布|草稿" lay-filter="test" >
+                                        </#if>
+                                    </td>
+                                    <td>${l.typeName}</td>
+                                    <td>
+                                        <a href="/post/edit/${l.id}"><button id="edit" class="layui-btn layui-btn-green" style="height: 25px;width: 65px;;line-height: 16px;">编辑</button></a>
+                                    </td>
+                                </tr>
+                            </#list>
+                        </#if>
+                        </tbody>
+                    </table>
+                </div>
+                    <div id="page" style="position:relative;float:right"></div>
+            </div>
             </div>
         </div>
     </div>
@@ -85,116 +135,75 @@
             <a href="#" target="_blank">社区小黑板</a>
 
     </div>
-    <script src="layui/layui.js"></script>
-
-    <script src="layui/lay/modules/form.js"></script>
-    <script src="layui/lay/modules/layer.js"></script>
-    <script src="js/index.js"></script>
-    <script type="text/html" id="headTools">
-        <div class="layui-btn-container">
-            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-            <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-            <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
-        </div>
-    </script>
-
-    <script type="text/html" id="tools">
-        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="view">查看</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/layui/lay/modules/layer.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/lay/modules/laypage.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-table.js"></script>
+    <script src="/js/bootstrap-table-zh-CN.js"></script>
     <script>
-        layui.use(['element', 'table'], function() {
-            var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-            var table = layui.table;
-            //监听导航点击
-            element.on('nav(demo)', function(elem) {
-                //console.log(elem)
-                layer.msg(elem.text());
-            });
-            table.render({
-                elem: '#topics',
-                height: 500,
-                url: '',
-                page: true,
-                toolbar: '#headTools',
-                cols: [
-                    [{
-                            type: 'checkbox',
-                            fixed: 'left'
-                        },
-
-                        {
-                            field: 'id',
-                            title: 'ID',
-                            width: 60,
-                            sort: true,
-                            fixed: 'left'
-                        }, {
-                            field: 'title',
-                            title: '主题标题',
-                            width: 250
-                        }, {
-                            field: 'date',
-                            title: '发表时间',
-                            width: 250
-                        }, {
-                            field: 'star',
-                            title: '点赞数',
-                            width: 80
-                        }, {
-                            field: 'reply',
-                            title: '回复数',
-                            width: 80
-                        }, {
-                            field: 'right',
-                            title: '',
-                            toolbar: '#tools',
-                            width: 200
+        layui.use('form', function() {
+            var form = layui.form,
+            layer = layui.layer,
+                $=layui.jquery;
+            form.on('switch(test)', function(data){
+                if(data.elem.checked){
+                    $.ajax({
+                        url:"changeStatus"
+                        ,type:"post"
+                        ,contentType:"application/json"
+                        ,data:JSON.stringify({
+                            status:0,
+                            id:$(this).val()
+                        })
+                        ,success:function(result){
+                            layer.msg(result.msg);
+                            setTimeout('window.parent.location.reload()',2000);
                         }
-                    ]
-                ]
-            });
-            //头部
-            table.on('toolbar(test)', function(obj) {
-                var checkStatus = table.checkStatus(obj.config.id);
-                switch (obj.event) {
-                    case 'getCheckData':
-                        var data = checkStatus.data;
-                        layer.alert(JSON.stringify(data));
-                        break;
-                    case 'getCheckLength':
-                        var data = checkStatus.data;
-                        layer.msg('选中了：' + data.length + ' 个');
-                        break;
-                    case 'isAll':
-                        layer.msg(checkStatus.isAll ? '全选' : '未全选');
-                        break;
-                };
-            });
-            //监听行工具事件
-            table.on('tool(test)', function(obj) {
-                var data = obj.data;
-                //console.log(obj)
-                if (obj.event === 'del') {
-                    layer.confirm('真的删除行么', function(index) {
-                        obj.del();
-                        layer.close(index);
                     });
-                } else if (obj.event === 'edit') {
-                    layer.prompt({
-                        formType: 2,
-                        value: data.email
-                    }, function(value, index) {
-                        obj.update({
-                            email: value
-                        });
-                        layer.close(index);
+                }else{
+                    $.ajax({
+                        url:"changeStatus"
+                        ,type:"post"
+                        ,contentType:"application/json"
+                        ,data:JSON.stringify({
+                            status:1,
+                            id:$(this).val()
+                        })
+                        ,success:function(result){
+                            layer.msg(result.msg);
+                            setTimeout('window.parent.location.reload()',2000);
+                        }
                     });
+                }
+            });
+
+        });
+    </script>
+    <#if page??>
+    <script>
+        layui.use('laypage',function(){
+            var laypage=layui.laypage;
+            laypage.render({
+                elem:'page'
+                ,count:${page.count}
+                ,curr: function(){
+                    var page = location.search.match(/page=(\d+)/);
+                    return page ? page[1] : 1;
+                }()
+                ,hash:'page'
+                ,jump:function(obj,first){
+                    if(!first){
+                        location.href = '?page='+obj.curr;
+                    }
                 }
             });
         });
     </script>
+</#if>
+
 </body>
 
 </html>

@@ -5,14 +5,14 @@ import com.bbs.exception.CustomerException;
 import com.bbs.pojo.Article;
 import com.bbs.pojo.Member;
 import com.bbs.utils.GetTime;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import com.bbs.utils.GetUUID;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service("MemberService")
 public class MemberService {
@@ -100,8 +100,27 @@ public class MemberService {
      * @param userId
      * @return
      */
-    public List<Article> getInfo(String userId){
-        return memberDao.getInfo(userId);
+    public List<Map<String, String>> getInfo(Integer pageNum, String userId){
+        List<Map<String,String>> list=new ArrayList<Map<String,String>>();
+        PageHelper.startPage(pageNum, 10);
+        List<Article> info = memberDao.getInfo(userId);
+        PageInfo page = new PageInfo(info);
+        for (int i=0;i<page.getList().size();i++
+        ) {
+            Map<String,String> map = new HashMap<String, String>();
+            map.put("id",info.get(i).getId());
+            map.put("name",info.get(i).getMember().getName());
+            String convert=info.get(i).getUpdateTime();
+            map.put("updateTime",convert.substring(0,convert.length()-2));
+            map.put("title",info.get(i).getTitle());
+            map.put("avatar",info.get(i).getMember().getAvatar());
+            list.add(map);
+        }
+        Map<String,String> map2 = new HashMap<String, String>();
+        map2.put("count",page.getTotal()+"");
+        map2.put("pageNum",page.getPageNum()+"");
+        list.add(map2);
+        return list;
     }
 
     /**

@@ -34,6 +34,7 @@ public class ArticleService {
         article.setId(GetUUID.getUUID());
         article.setStar(0);
         article.setView(0);
+        article.setStatus(0);
         try{
             return articleDao.addArticle(article);
         }catch (DuplicateKeyException e){
@@ -208,5 +209,44 @@ public class ArticleService {
     public Integer updateArticle(Article article) {
         article.setUpdateTime(GetTime.getNow());
         return articleDao.updateArticle(article);
+    }
+
+    /**
+     * 我的帖子
+     * @param pageNum
+     * @param userId
+     * @return
+     */
+    public List<Map<String,String>> getArticleByUserId(Integer pageNum,String userId){
+        PageHelper.startPage(pageNum, 10);
+        List<Article> article=articleDao.getArticleByUserId(userId);
+        PageInfo page = new PageInfo(article);
+        Map<String,String> count = new HashMap<String, String>();
+        List<Map<String,String>> top=new ArrayList<Map<String, String>>();
+        for (int i=0;i<page.getList().size();i++
+        ) {
+            Map<String,String> map = new HashMap<String, String>();
+            map.put("id",article.get(i).getId());
+            map.put("title",article.get(i).getTitle());
+            map.put("updateTime",article.get(i).getUpdateTime().substring(0,article.get(i).getUpdateTime().length()-2));
+            map.put("typeName",article.get(i).getTypes().getName());
+            map.put("status",article.get(i).getStatus()+"");
+            top.add(map);
+        }
+        count.put("count",page.getTotal()+"");
+        count.put("pageNum",pageNum+"");
+        top.add(count);
+        return top;
+    }
+
+    /**
+     * 更改文章状态
+     * @param status
+     * @param id
+     * @param userId
+     * @return
+     */
+    public Integer updateArticleStatusByUserId(Integer status,String id,String userId){
+        return articleDao.updateArticleStatusByUserId(status,id,userId);
     }
 }
