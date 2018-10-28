@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.bbs.dao.ResetDao">
+
+    <resultMap type="com.bbs.pojo.Reset" id="resetMap">
+        <id column="id" property="id"/>
+        <result column="user" property="user"/>
+        <result column="resetTime" property="resetTime"/>
+        <result column="token" property="token"/>
+        <association property="member" javaType="com.bbs.pojo.Member">
+            <result column="name" property="name"/>
+        </association>
+    </resultMap>
+
+    <select id="forgetPwd" useCache="false" statementType="CALLABLE" resultType="String">
+       <![CDATA[
+          call resetPwd(
+            #{identity,mode=IN,jdbcType=VARCHAR});
+        ]]>
+    </select>
+
+    <select id="getUserAndToken" resultMap="resetMap">
+        SELECT DISTINCT
+            a.resetTime,
+            a.token,
+            b.NAME
+        FROM
+            bbs_forgetPwd a
+            JOIN bbs_member b ON a.USER = b.id
+        WHERE a.user=#{userId}
+        order by resetTime
+        limit 0,1
+    </select>
+
+    <select id="getResetByToken" resultMap="resetMap">
+        SELECT
+            user,resetTime
+        FROM
+            bbs_forgetPwd
+        WHERE
+            token = #{token};
+    </select>
+
+    <delete id="delToken">
+        DELETE FROM bbs_forgetPwd WHERE token=#{token}
+    </delete>
+</mapper>

@@ -3,10 +3,7 @@ package com.bbs.controller;
 import com.bbs.exception.CustomerException;
 import com.bbs.pojo.Article;
 import com.bbs.pojo.Member;
-import com.bbs.service.ArticleService;
-import com.bbs.service.MemberService;
-import com.bbs.service.StarService;
-import com.bbs.service.WordService;
+import com.bbs.service.*;
 import com.bbs.utils.ReturnJson;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -38,6 +35,10 @@ public class UserController {
 
     @Autowired
     private ArticleService articleService;
+
+
+    @Autowired
+    private MessageService messageService;
 
     @ModelAttribute
     public void init(Model model,HttpServletRequest request){
@@ -148,11 +149,32 @@ public class UserController {
      * @return
      */
     @RequestMapping("message")
-    public ModelAndView msg(){
+    public ModelAndView message(@RequestParam(value="page",defaultValue="1",required = false) Integer pageNum,
+                                HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
+        String member=(String)request.getSession().getAttribute("member");
+        List<Map<String, String>> messages = messageService.getMessageByUserId(pageNum,member);
+        Map<String,String> count=new HashMap<String, String>();
+        count.put("count",messages.get(messages.size()-1).get("count"));
+        count.put("pageNum",messages.get(messages.size()-1).get("pageNum"));
+        messages.remove(messages.size()-1);
+        modelAndView.addObject("msg",messages);
+        modelAndView.addObject("count",count);
         modelAndView.setViewName("message");
         return modelAndView;
     }
 
+    @RequestMapping(value = "updateStatus",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnJson updateStatus(@RequestBody Map<String,Object> map,HttpServletRequest request){
+        String member=(String)request.getSession().getAttribute("member");
+        Integer id=Integer.parseInt(map.get("id").toString());
+        Integer i = messageService.updateStatus(id,member);
+        if(i>0){
+            return new ReturnJson(0,"",0,"");
+        }else{
+            return new ReturnJson(1,"查看失败",0,"");
+        }
+    }
 
 }

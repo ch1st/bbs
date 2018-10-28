@@ -214,4 +214,25 @@
         </set>
         where id=#{id} and user=#{userId}
     </update>
+
+    <select id="searchArticle" resultMap="ArticleMap">
+         SELECT
+             a.title,
+             a.id,
+             a.star,
+             a.view,
+             a.updateTime,
+             b.avatar,
+             b.name,
+             b.id as code,
+             t.name as TypeName
+             FROM
+             bbs_article a
+             JOIN bbs_member b ON a.USER = b.id
+             JOIN bbs_types t ON a.type = t.id
+             where a.status=0 and a.title LIKE concat(concat('%',#{title}),'%')
+              OR a.content LIKE concat (concat('%',#{title}),'%')
+             ORDER BY
+             updateTime
+    </select>
 </mapper>

@@ -33,7 +33,7 @@
 <body>
     <div class="forum-header">
         <div class="layui-container">
-            <a class="logo" href="#"><img src="/img/logo.png" alt=""></a>
+            <a class="logo" href="/index"><img src="/img/logo.png" alt=""></a>
 
             <#if Session['member']?exists>
             <div class="fly-column-right layui-hide-xs" style="top:15px;">
@@ -43,11 +43,14 @@
                 <a href="/post/add" class="layui-btn">发表新帖</a>
             </div>
             <#else>
-            <ul class="login layui-nav forum-nav " id="login">
-                <a href="#">
-                    <li class="layui-nav-item"><a href="#" class="subLogin"><i class="layui-icon layui-icon-username" style="font-size: 16px;color: black"> </i>登陆</li></a></a>
-                <a href="#">
-                    <li class="layui-nav-item"><a href="#" id="subReg"><i class="layui-icon layui-icon-water" style="font-size: 16px;color: black"></i>注册</li></a></a>
+
+            <ul class="login layui-nav forum-nav" id="login">
+                <form style="float:left" action="/search" method="get">
+                    <div class="layui-form-item">
+                        <input name="keyword" type="text" class="layui-input searchInput" placeholder="请输入搜索内容" />
+                        <i class="iconfont icon-sousuo" style="position:relative;float:right;color:#666666;top:20px;left:290px" lay-submit> </i>
+                    </div>
+                </form>
             </ul>
         </#if>
 
@@ -61,7 +64,6 @@
                     <div class="fly-panel">
                         <div class="fly-panel-title fly-filter">
                             <a>实时热点</a>
-                            <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
                         </div>
                         <#if top??>
                         <#list top as t>
@@ -165,9 +167,15 @@
 										<i class="layui-icon layui-icon-set" title="设置"></i>
 										设置
 									</a>
-									<a href="#">
+									<a href="/user/message">
 						     			<i class="layui-icon layui-icon-notice" title="消息"></i>
-										消息
+                                        <#if msg??>
+                                            <#if (msg>0) >
+                                            消息 <span class="layui-badge" style="position:relative;bottom:1px;">${msg}</span>
+                                            <#else>
+                                            消息
+                                            </#if>
+                                        </#if>
 						     		</a>
                                     <a href="/logout">
                                         <i class="layui-icon layui-icon-note" title="注销"></i>

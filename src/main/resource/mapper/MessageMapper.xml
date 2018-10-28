@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.bbs.dao.MessageDao">
+
+    <resultMap type="com.bbs.pojo.Message" id="messageMap">
+        <id column="id" property="id"/>
+        <result column="user" property="user"/>
+        <result column="articleId" property="articleId"/>
+        <result column="status" property="status"/>
+        <result column="date" property="date"/>
+        <association property="member" javaType="com.bbs.pojo.Member">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="username" property="username"/>
+        </association>
+        <association property="article" javaType="com.bbs.pojo.Article">
+            <result column="title" property="title"/>
+        </association>
+    </resultMap>
+
+
+
+    <select id="getMessageByUserId" resultMap="messageMap">
+        SELECT
+            a.id as username,
+            a.date,
+            a.articleId,
+            b.title,
+            c.name,
+            c.id
+        FROM
+            bbs_message a
+            join bbs_article b on a.articleID=b.id
+            join bbs_member c on b.user=c.id
+            where a.status=0 and a.user=#{userId}
+    </select>
+
+    <insert id="insertMessage">
+        INSERT INTO bbs_message
+        <trim	prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user!=null and user!=''">user,</if>
+            <if test="articleId!=null">articleId,</if>
+            <if test="status!=null and status!=''">status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="user!=null and user!=''">#{user},</if>
+            <if test="articleId!=null">#{articleId},</if>
+            <if test="status!=null and status!=''">#{status},</if>
+        </trim>
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE bbs_message
+        <set>
+            <if test="status!=null and status!=''">status=#{status},</if>
+        </set>
+        WHERE id=#{id} and user=#{user}
+    </update>
+
+    <select id="getCountMessageByUserId" resultMap="messageMap">
+        SELECT
+            count( * ) AS USER
+        FROM
+            bbs_message
+        WHERE
+            1 = 1
+            AND USER = #{userId}
+            and status=0
+    </select>
+
+</mapper>

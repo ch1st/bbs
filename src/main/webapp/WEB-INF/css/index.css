@@ -44,7 +44,7 @@
 }
 
 .forum-nav {
-    margin-left: 37%;
+    margin-left: 24%;
 }
 
 .layui-nav-item a {
@@ -68,7 +68,16 @@
 .search {
     position: fixed;
 }
-
+.searchInput{
+    position:relative ;
+    height:30px;
+    width: 300px;
+    border-radius: 15px;
+    color:#9E9C9C;
+    float:right;
+    border:1px solid #ddd;
+    top:15px !important;
+}
 @media screen and (max-width: 768px) {
     ul {
         position: absolute;

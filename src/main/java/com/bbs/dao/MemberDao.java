@@ -77,4 +77,11 @@ public interface MemberDao {
      * @return
      */
     public Member getUserInfo(@Param("id")String id);
+
+    /**
+     * 重置密码的修改密码
+     * @param id
+     * @return
+     */
+    public Integer updatePassword(@Param("id")String id,@Param("password")String password);
 }

@@ -6,9 +6,7 @@ import com.bbs.pojo.Member;
 import com.bbs.pojo.Type;
 import com.bbs.pojo.Word;
 import com.bbs.service.*;
-import com.bbs.utils.Captcha;
-import com.bbs.utils.ReturnJson;
-import com.bbs.utils.GetUUID;
+import com.bbs.utils.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.imageio.ImageIO;
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
@@ -40,18 +39,23 @@ public class IndexController {
     private WordService wordService;
     @Autowired
     private TypeService typeService;
-
     @Autowired
     private StarService starService;
+    @Autowired
+    private ResetService resetService;
 
+    @Autowired
+    private MessageService messageService;
     @ModelAttribute
-    public void init(Model model){
+    public void init(Model model,HttpServletRequest request){
         List<Map<String, String>> top=articleService.topArticles();
         List<Type> t=typeService.getTypes();
         List<Member> members=memberService.getIndexMember();
         model.addAttribute("top",top);
         model.addAttribute("type",t);
         model.addAttribute("members",members);
+        model.addAttribute("msg",messageService.getCountMessageByUserId((String)request.getSession().getAttribute("member")));
+
     }
 
 
@@ -283,4 +287,114 @@ public class IndexController {
         modelAndView.setViewName("userinfo-2");
         return modelAndView;
     }
+
+    /**
+     * 搜索文章
+     * @param keyword
+     * @param pageNum
+     * @param request
+     * @return
+     */
+    @RequestMapping("search")
+    public ModelAndView search(@RequestParam(value="keyword",required = false) String keyword,
+                               @RequestParam(value="page",defaultValue="1",required = false) Integer pageNum,
+                               HttpServletRequest request
+                               ){
+        ModelAndView modelAndView = new ModelAndView();
+        List<Map<String, String>> indexArticle = articleService.searchArticle(pageNum,keyword);
+        Map<String,String> count=new HashMap<String, String>();
+        count.put("count",indexArticle.get(indexArticle.size()-1).get("count"));
+        count.put("pageNum",indexArticle.get(indexArticle.size()-1).get("pageNum"));
+        indexArticle.remove(indexArticle.size()-1);
+        modelAndView.addObject("index",indexArticle);
+        modelAndView.addObject("count",count);
+        modelAndView.addObject("keyword",keyword);
+        modelAndView.addObject("user",memberService.getUserInfo((String)request.getSession().getAttribute("member")));
+        modelAndView.setViewName("search");
+        return modelAndView;
+    }
+
+    /**
+     * 忘记密码
+     * @return
+     */
+    @RequestMapping("forget")
+    public ModelAndView forget(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("forgetPwd");
+        return modelAndView;
+    }
+
+    /**
+     * 忘记密码操作
+     * @param map
+     * @return
+     */
+    @RequestMapping(value = "getToken",method = RequestMethod.POST)
+    @ResponseBody
+    public ReturnJson getToken(@RequestBody Map<String,Object> map
+                               ,HttpServletRequest request) {
+        String email=map.get("email").toString();
+        String code=map.get("code").toString();
+        Object c = request.getSession().getAttribute("simpleCaptcha");
+        request.getSession().removeAttribute("simpleCaptcha");
+        if (c == null) {
+            return new ReturnJson(1, "验证码已失效", 0, "");
+        }
+        String validCode = c.toString();
+        if (StringUtils.isEmpty(code) || validCode == null || !(code.equalsIgnoreCase(validCode))) {
+            return new ReturnJson(1, "验证码错误", 0, "");
+        } else {
+            String i = resetService.forgetPwd(email);
+            if (!i.equals("0")) {
+                Map<String,String> result =resetService.getUserAndToken(i);
+                Email.send(email,"重置密码","尊敬的"+result.get("name")+":<br/>"+"您的密码重置链接为:http://localhost:9096/reset?token="+result.get("token"));
+                return new ReturnJson(0, "找回成功,请查看您的邮箱近期邮件进一步操作", 0, "");
+            } else {
+                return new ReturnJson(1, "该邮箱不存在", 0, "");
+            }
+        }
+    }
+
+    /**
+     * 密码重置页面
+     * @param token
+     * @param request
+     * @return
+     */
+    @RequestMapping("reset")
+    public ModelAndView reset(@RequestParam("token")String token,HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+        Map<String,String> status=resetService.getResetByToken(token);
+        if(status.size()>0){
+            Long now= DateToLong.fromDateStringToLong(GetTime.getNow());
+            Long resetTime=DateToLong.fromDateStringToLong(status.get("resetTime"));
+            long result=now-resetTime;
+            int hour=(int)result/(60*60*1000);
+            if(hour>=3){
+                resetService.delToken(token);
+                modelAndView.addObject("status","1");
+            }else{
+                request.getSession().setAttribute("userId",status.get("userId"));
+            }
+        }else{
+            modelAndView.addObject("status","2");
+        }
+        modelAndView.setViewName("reset");
+        return modelAndView;
+    }
+
+    @RequestMapping("resetpwd")
+    @ResponseBody
+    public ReturnJson resetpwd(@RequestBody Map<String,Object> map,HttpServletRequest request){
+        String user=(String) request.getSession().getAttribute("userId");
+        Integer i=memberService.updatePassword(user,map.get("password").toString());
+        if(i>0){
+            return new ReturnJson(0,"密码重置成功",0,"");
+        }else{
+            return new ReturnJson(1,"密码重置失败",0,"");
+        }
+    }
+
+
 }

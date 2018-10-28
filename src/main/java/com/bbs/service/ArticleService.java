@@ -148,7 +148,7 @@ public class ArticleService {
      * @return
      */
 
-    public List<Map<String, String>> getIndexArticle(@RequestParam(value="page",defaultValue = "1",required = false)Integer pageNum,String tab){
+    public List<Map<String, String>> getIndexArticle(Integer pageNum,String tab){
         PageHelper.startPage(pageNum, 10);
         List<Article> topArticle=articleDao.getIndexArticle(tab);
         PageInfo page = new PageInfo(topArticle);
@@ -176,6 +176,39 @@ public class ArticleService {
         return top;
     }
 
+    /**
+     * 搜索文章
+     * @param pageNum
+     * @param keyword
+     * @return
+     */
+    public List<Map<String,String>> searchArticle(Integer pageNum,String keyword){
+        PageHelper.startPage(pageNum,10);
+        List<Article> articles=articleDao.searchArticle(keyword);
+        PageInfo page = new PageInfo(articles);
+        Map<String,String> count = new HashMap<String, String>();
+        List<Map<String,String>> data=new ArrayList<Map<String, String>>();
+        for (int i=0;i<page.getList().size();i++
+        ) {
+            Map<String,String> map = new HashMap<String, String>();
+            map.put("avatar",articles.get(i).getMember().getAvatar());
+            map.put("username",articles.get(i).getMember().getName());
+            map.put("userId",articles.get(i).getMember().getCode());
+            map.put("title",articles.get(i).getTitle());
+            map.put("articleId",articles.get(i).getId());
+            Word words=wordService.getCountWordByArticle(articles.get(i).getId());
+            map.put("words",words.getStar().toString());
+            map.put("updateTime",articles.get(i).getUpdateTime().substring(0,articles.get(i).getUpdateTime().length()-2));
+            map.put("star",articles.get(i).getStar().toString());
+            map.put("view",articles.get(i).getView().toString());
+            map.put("typeName",articles.get(i).getTypes().getName());
+            data.add(map);
+        }
+        count.put("count",page.getTotal()+"");
+        count.put("pageNum",pageNum+"");
+        data.add(count);
+        return data;
+    }
     /**
      * 获取首页点赞量最多的文章
      * @return
@@ -249,4 +282,6 @@ public class ArticleService {
     public Integer updateArticleStatusByUserId(Integer status,String id,String userId){
         return articleDao.updateArticleStatusByUserId(status,id,userId);
     }
+
+
 }

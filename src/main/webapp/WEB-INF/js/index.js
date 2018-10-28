@@ -1,12 +1,13 @@
 //搜素框处理
 $("#Search").click(function(e) {
     layer.open({
-        title: '',
+        title: false,
         type: 1,
         closeBtn: 0,
+        shadeClose: true,
         offset: 'auto',
         area: ['550px', '78px'],
-        content: '<div class="search"><form action="#"><input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input"/></form></div>'
+        content: '<div class="search"><form action="search" method="get"><input name="keyword" type="text" required placeholder="请输入标题"  lay-submit  class="layui-input"/></form></div>'
     });
 });
 

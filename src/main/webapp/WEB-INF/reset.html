@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>社区首页</title>
+    <!-- 设置横屏、竖屏显示，portrait 横屏，landscape 竖屏-->
+    <meta name="x5-orientation" content="portrait|landscape">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- 禁止自动识别日期 -->
+    <meta name="format-detection" content="date=no">
+    <!-- 禁止自动自动识别 Email -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="email=no">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 禁止浏览器自动将手机号码变为拨号链接 -->
+    <meta name="format-detection" content="address=no">
+    <!-- 禁止浏览器自动将地址转换 -->
+    <meta name="title" content="">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/font_24081_dddajmj0coc4n29.css">
+    <link rel="stylesheet" href="layui/css/modules/layer/default/layer.css">
+    <script src="js/jquery.min.js"></script>
+
+</head>
+
+<body>
+    <div class="forum-header">
+        <div class="layui-container">
+            <a class="logo" href="/index"><img src="/img/logo.png" alt=""></a>
+
+            <#if Session['member']?exists>
+            <div class="fly-column-right layui-hide-xs" style="top:15px;">
+                <span class="fly-search LAY_search" style="position:relative;top:8px" id="Search">
+					<i class="layui-icon"></i>
+				</span>
+                <a href="/post/add" class="layui-btn">发表新帖</a>
+            </div>
+            <#else>
+
+            <ul class="login layui-nav forum-nav" id="login">
+                <form style="float:left" action="/search" method="get">
+                    <div class="layui-form-item">
+                        <input name="keyword" type="text" class="layui-input searchInput" placeholder="请输入搜索内容" />
+                        <i class="iconfont icon-sousuo" style="position:relative;float:right;color:#666666;top:20px;left:290px" lay-submit> </i>
+                    </div>
+                </form>
+            </ul>
+        </#if>
+
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15" style="margin-top:20px">
+        <div class="layui-container">
+            <div class="layui-row">
+                <div class="layui-col-md15">
+                    <div class="fly-panel">
+                        <center>
+                        <div style="width: 500px;height: 100%;">
+                        <#if status??>
+                            <#if status=="1">
+                                <div style="width: 300px;color:#5FB878;text-align: center">
+                                    <i class="layui-icon layui-icon-face-cry" style="font-size:250px;color:#5FB878;"> </i>
+                                    <h3>token超过3个小时,请重新发送邮件重置密码</h3>
+                                </div>
+                            <#else>
+                            <div style="width: 300px;color:#5FB878;text-align: center">
+                                <i class="layui-icon layui-icon-face-cry" style="font-size:250px;color:#5FB878;"> </i>
+                                <h3>该token不存在，请确认后再输入</h3>
+                            </div>
+                            </#if>
+                            <#else>
+                                <form class="layui-form">
+                                    <fieldset class="layui-elem-field layui-field-title" style="width: 100%;padding-top: 20px;left:20px;text-align: left;">
+                                        <legend>忘记密码</legend>
+                                    </fieldset>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <input type="password" name="password" required lay-verify="required|pwd" placeholder="密码" class="layui-input" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <input type="password" name="rePassword" required lay-verify="required|rePwd" placeholder="重复密码" class="layui-input" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn layui-btn-primary" lay-submit lay-filter="reg" style="width:50%;" type="button">重置密码</button>
+                                        </div>
+                                    </div>
+                                </form>
+                        </#if>
+                        </div>
+                    </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="fly-footer">
+        <p>
+            <a href="http://fly.layui.com/">社区</a> 2018 &copy;
+            <a href="http://www.oldc.pro/">oldc.pro</a>
+        </p>
+        <p>
+            <a href="#" target="_blank">关于我们</a>
+            <a href="#" target="_blank">友情链接</a>
+            <a href="#" target="_blank">社区小黑板</a>
+
+    </div>
+    <script src="/layui/layui.js"></script>
+    <script src="/layui/lay/modules/table.js"></script>
+    <script src="/layui/lay/modules/form.js"></script>
+    <script src="/layui/lay/modules/layer.js"></script>
+    <script src="/js/index.js"></script>
+    <script>
+        layui.use('form', function() {
+            var form = layui.form;
+            form.verify({
+                user: [
+                    /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/, "用户名不能出现特殊字符"
+                ],
+
+                pwd: function(value, item) {
+                    if (value === "") {
+                        return "密码不能为空";
+                    }
+                    var Digital = /\d/;
+                    var Letters = /[a-zA-Z]/;
+                    if (!(Digital.test(value) && Letters.test(value) && value.length >= 0)) {
+                        return '密码必须含有字母和数字';
+                    }
+                },
+                rePwd: function(value, item) {
+                    if (value === "") {
+                        return "请输入二次密码";
+                    }
+                    var pwd = $("input[name='password']").val();
+                    if (pwd != value) {
+                        return '密码与确认密码不正确';
+                    }
+
+                }
+            });
+            form.on('submit(reg)',function(data) {
+                $.ajax({
+                    url: '/resetpwd',
+                    type: 'POST',
+                    data: JSON.stringify(data.field),
+                    contentType: "application/json",
+                    success: function (result) {
+                        if (result.code == 0) {
+                            layer.msg(result.msg);
+                            setTimeout("window.location.href='/index'", 2000);
+                        } else {
+                            layer.msg(result.msg);
+                        }
+                    }
+                });
+            });
+         });
+    </script>
+
+</body>
+</html>

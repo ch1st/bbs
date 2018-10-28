@@ -89,4 +89,11 @@ public interface ArticleDao {
      * 更改文章状态
      */
     public Integer updateArticleStatusByUserId(@Param("status")Integer status,@Param("id")String id,@Param("userId")String userId);
+
+    /**
+     * 查找文章
+     * @param title
+     * @return
+     */
+    public List<Article> searchArticle(@Param("title")String title);
 }

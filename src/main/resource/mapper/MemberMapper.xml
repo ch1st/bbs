@@ -39,8 +39,9 @@
     </select>
 
 	<insert id="insert">
-            INSERT INTO bbs_member
-            <trim	prefix="(" suffix=")" suffixOverrides=",">
+
+        INSERT INTO bbs_member
+          <trim	prefix="(" suffix=")" suffixOverrides=",">
                 <if test="id!=null and id!=''">id,</if>
                 <if test="name!=null and name!=''">name,</if>
                 <if test="username!=null">username,</if>
@@ -62,14 +63,14 @@
                 <if test="email!=null">#{email},</if>
                 #{status},
                 <if test="regTime!=null">#{regTime},</if>
-                #{loginTime},${avatar},${city},${signature},
+                #{loginTime},#{avatar},#{city},#{signature},
             </trim>
+
 	</insert>
 
     <select id="login" resultMap="MemberMap">
         SELECT * FROM bbs_member where 1=1
         <if test="username!=null and username!=''">and username=#{username}</if>
-        <if test="password!=null and password!=''">and password=#{password}</if>
         and status=0
     </select>
 
@@ -138,4 +139,12 @@
     <select id="getUserInfo" resultMap="MemberMap">
         select name,avatar,signature,regTime from bbs_member where id=#{id}
     </select>
+
+    <update id="updatePassword">
+    UPDATE  bbs_member
+    <set>
+        <if test="password!=null and password!=''">password=#{password},</if>
+    </set>
+    where id=#{id}
+    </update>
 </mapper>

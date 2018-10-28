@@ -1,10 +1,7 @@
 package com.bbs.controller;
 
 import com.bbs.exception.CustomerException;
-import com.bbs.pojo.Article;
-import com.bbs.pojo.Star;
-import com.bbs.pojo.Type;
-import com.bbs.pojo.Word;
+import com.bbs.pojo.*;
 import com.bbs.service.*;
 import com.bbs.utils.ReturnJson;
 import com.bbs.utils.GetUUID;
@@ -42,6 +39,10 @@ public class ArticleController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private MessageService messageService;
+
     @ModelAttribute
     public void init(Model model,HttpServletRequest request){
         model.addAttribute("user",memberService.getUserInfo((String)request.getSession().getAttribute("member")));
@@ -121,8 +122,14 @@ public class ArticleController {
     @RequestMapping(value="/addWord",method = RequestMethod.POST)
     @ResponseBody
     public ReturnJson addWord(HttpServletRequest request, @RequestBody Word word){
-        word.setUser((String) request.getSession().getAttribute("member"));
+        String member=(String) request.getSession().getAttribute("member");
+        word.setUser(member);
         Integer i =wordService.addWord(word);
+        Message message = new Message();
+        message.setUser(member);
+        message.setArticleId(word.gettId());
+        message.setStatus(0);
+        messageService.insertMessage(message);
         if(i>0){
             return new ReturnJson(0,"回复成功",0,"");
         }

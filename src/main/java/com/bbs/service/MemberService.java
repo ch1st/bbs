@@ -4,9 +4,11 @@ import com.bbs.dao.MemberDao;
 import com.bbs.exception.CustomerException;
 import com.bbs.pojo.Article;
 import com.bbs.pojo.Member;
+import com.bbs.utils.Bcrypt;
 import com.bbs.utils.GetTime;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -29,14 +31,14 @@ public class MemberService {
     public Integer insertMember(Member member) throws CustomerException {
         member.setRegTime(GetTime.getNow());
         member.setId(GetUUID.getUUID());
+        member.setPassword(Bcrypt.bryptPwd(member.getPassword()));
         member.setName(member.getUsername());
         member.setStatus(0); //0是允许登陆
-        System.out.println(member.toString());
         Integer i = null;
         try {
             i = memberDao.insert(member);
         } catch (DuplicateKeyException e) {
-            throw  new CustomerException("用户名重复");
+            throw  new CustomerException("用户名或邮箱重复");
         }
         return i;
     }
@@ -49,7 +51,13 @@ public class MemberService {
      */
     public Member login(Member member) {
         member.setLoginTime(GetTime.getNow());
-        return memberDao.login(member);
+        Member result= memberDao.login(member);
+        boolean islogin=Bcrypt.validPwd(member.getPassword(), result.getPassword());
+        if(islogin){
+            return result;
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -92,6 +100,7 @@ public class MemberService {
      * @return
      */
     public Integer updatePwd(String id,String oldPass,String newPass){
+        newPass=Bcrypt.bryptPwd(newPass);
         return memberDao.updatePwd(id,oldPass,newPass);
     }
 
@@ -147,5 +156,17 @@ public class MemberService {
      */
     public Member getUserInfo(String id){
         return memberDao.getUserInfo(id);
+    }
+
+
+    /**
+     * 重置密码的修改密码
+     * @param id
+     * @param password
+     * @return
+     */
+    public Integer updatePassword(String id,String password){
+        password=Bcrypt.bryptPwd(password);
+        return memberDao.updatePassword(id,password);
     }
 }
